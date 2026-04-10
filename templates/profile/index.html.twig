@@ -7,62 +7,85 @@
 
     <div class="user-infos flx-row">
 
-        <img class="avatar" src="https://api.habbocity.me/avatar_image.php?user={{ user.username }}&headonly=0&direction=2&head_direction=3&size=l" alt="Avatar">
+        {# Avatar usando Habbo.es - Hotel Español #}
+        <img class="avatar"
+             src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ user.username }}&action=std&direction=2&head_direction=3&gesture=sml&size=l"
+             alt="Avatar Habbo de {{ user.username }}"
+             width="90" height="160"
+             loading="lazy"
+             onerror="this.src='https://www.habbo.es/habbo-imaging/avatarimage?user=default&size=l'">
+
         <div class="users-details flx-column">
-        <h1>{{ user.username }}</h1>
+            <h1>{{ user.username }}</h1>
             <span class="rank-box">{{ user.rank.name }}</span>
-        <h2>Points : {{ user.points }}</h2>
-        <span>Mission : <i>{{ userMotto }}</i></span>
+            <h2>{{ 'profile.puntos'|trans }}: {{ user.points }}</h2>
+            <span>{{ 'profile.mision'|trans }}: <i>{{ userMotto }}</i></span>
+
+            {# Enlace directo al perfil en Habbo.es #}
+            <a href="https://www.habbo.es/es/profile/{{ user.username }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-habbo-es">
+                🏨 {{ 'habbo.ver_perfil'|trans }}
+            </a>
         </div>
 
     </div>
-            <div class="user-last-comment flx-column">
 
-                {% if comments %}
-                {% for comment in comments %}
-                    <div class="last-comment-content flx-row">
-                        <img src="https://api.habbocity.me/avatar_image.php?user={{ user.username }}&headonly=1&direction=2&head_direction=2&size=l" alt="Avatar">
-                        <div class="last-comment--content">
-                       <h2>{{ comment.articleId }}</h2>
+    <div class="user-last-comment flx-column">
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="last-comment-content flx-row">
+                    <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ user.username }}&headonly=1&direction=2&head_direction=2&size=l"
+                         alt="Avatar de {{ user.username }}"
+                         width="45" height="90"
+                         loading="lazy">
+                    <div class="last-comment--content">
+                        <h2>{{ comment.articleId }}</h2>
                         <span>{{ comment.content }}</span>
-                        </div>
                     </div>
-                {% endfor %}
-                {% else %}
-                    <span class="user-has-nocomment">Cet utilisateur n'a pas de commentaire.</span>
-                {% endif %}
-            </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <span class="user-has-nocomment">{{ 'profile.sin_comentarios'|trans }}</span>
+        {% endif %}
+    </div>
 
     </div>
 
     <div class="user-purse w-100 flx-row">
         <div class="purse-box flx-row">
             <div class="badge-list">
-            {% for badge in userBadges %}
-                <img src="https://swf.habbocity.me/c_images/album1584/{{ badge.code }}.gif" alt="Badge" class="user-badge">
-            {% endfor %}
+                {% for badge in userBadges %}
+                    <img src="https://swf.habbocity.me/c_images/album1584/{{ badge.code }}.gif"
+                         alt="Insignia {{ badge.code }}"
+                         class="user-badge"
+                         loading="lazy">
+                {% endfor %}
             </div>
         </div>
         <div class="purse-box diamonds-box flx-row">
             <div class="diamonds-icon"></div>
-            <h2>{{ userDiamonds }} diamants</h2>
+            <h2>{{ userDiamonds }} {{ 'profile.diamantes'|trans }}</h2>
         </div>
         {% if user.verified %}
             <div class="purse-box user-verified">
-                <h2>Cet utilisateur est vérifié</h2>
+                <h2>{{ 'profile.verificado'|trans }}</h2>
             </div>
-        {% else%}
+        {% else %}
             <div class="purse-box user-not-verified">
-                <h2>Cet utilisateur n'est pas vérifié</h2>
+                <h2>{{ 'profile.no_verificado'|trans }}</h2>
             </div>
         {% endif %}
     </div>
+
     <div class="netWorth-chart">
-    <canvas id="myChart" width="400" height="400"></canvas>
+        <canvas id="myChart" width="400" height="400"></canvas>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" type="application/javascript"></script>
     <script>
         let labelsArray = [];
@@ -79,7 +102,7 @@
             data: {
                 labels: labelsArray.reverse(),
                 datasets: [{
-                    label: 'Richesse totale',
+                    label: '{{ 'profile.riqueza_total'|trans }}',
                     data: netWorth.reverse(),
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -112,11 +135,10 @@
                             beginAtZero: true
                         }
                     }]
-                },
+                }
             }
         });
         Chart.defaults.global.defaultFontColor = 'white';
         Chart.defaults.global.defaultFontFamily = 'Ubuntu Condensed';
     </script>
-
 {% endblock %}

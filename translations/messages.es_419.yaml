@@ -1,0 +1,138 @@
+# translations/messages.es_419.yaml
+# FansiteCMS - Traducción Español Latinoamérica (es_419)
+# Generado por: Perplexity AI para Fstudiosmx
+
+nav:
+  inicio: "Inicio"
+  noticias: "Noticias"
+  habitaciones: "Habitaciones"
+  equipos: "Equipos"
+  videos: "Videos"
+  perfil: "Mi Perfil"
+  ingresar: "Ingresar"
+  registrarse: "Registrarse"
+  cerrar_sesion: "Cerrar Sesión"
+  admin: "Administración"
+  ver_mas: "Ver más..."
+  ver_todos: "Ver todos"
+
+auth:
+  correo: "Correo electrónico"
+  contrasena: "Contraseña"
+  recordarme: "Recordarme"
+  olvide_contrasena: "¿Olvidaste tu contraseña?"
+  ingresar: "Ingresar"
+  registrarse: "Crear cuenta"
+  ya_tienes_cuenta: "¿Ya tienes cuenta? Ingresa aquí"
+  no_tienes_cuenta: "¿No tienes cuenta? Regístrate"
+  bienvenido: "¡Bienvenido de vuelta, %nombre%!"
+  logout_exitoso: "Sesión cerrada correctamente."
+  error_credenciales: "Nombre de usuario o contraseña incorrectos."
+  titulo_login: "Iniciar Sesión"
+  nombre_usuario: "Nombre de usuario"
+
+register:
+  titulo: "Crear nueva cuenta"
+  nombre_usuario: "Nombre de usuario"
+  correo: "Correo electrónico"
+  contrasena: "Contraseña"
+  confirmar_contrasena: "Confirmar contraseña"
+  nombre_habbo: "Tu nombre en Habbo"
+  boton: "¡Únete ahora!"
+  exito: "¡Cuenta creada exitosamente! Ya puedes ingresar."
+  error_usuario_existe: "Este nombre de usuario ya está en uso."
+  error_correo_existe: "Este correo ya está registrado."
+
+profile:
+  titulo: "Mi Perfil"
+  nombre_usuario: "Nombre de usuario"
+  correo: "Correo electrónico"
+  nombre_habbo: "Nombre en Habbo"
+  avatar: "Mi Avatar Habbo"
+  ver_habbo: "Ver en Habbo.es"
+  editar: "Editar perfil"
+  guardar: "Guardar cambios"
+  habitaciones: "Mis habitaciones"
+  sin_habitaciones: "Aún no tienes habitaciones registradas."
+  puntos: "Puntos"
+  mision: "Misión"
+  rango: "Rango"
+  diamantes: "diamantes"
+  verificado: "Este usuario está verificado"
+  no_verificado: "Este usuario no está verificado"
+  sin_comentarios: "Este usuario no tiene comentarios aún."
+  riqueza_total: "Riqueza total"
+  badges: "Insignias"
+  ultimos_comentarios: "Últimos comentarios"
+
+habbo:
+  avatar_titulo: "Avatar de Habbo"
+  hotel: "Hotel Habbo Español"
+  ver_perfil: "Ver perfil en Habbo.es"
+  nombre: "Nombre Habbo"
+  hotel_url: "https://www.habbo.es"
+  avatar_base_url: "https://www.habbo.es/habbo-imaging/avatarimage"
+
+news:
+  titulo: "Últimas Noticias"
+  actualidad: "Actualidad"
+  leer_mas: "Leer más"
+  publicado_por: "Publicado por"
+  publicado_el: "el"
+  sin_noticias: "No hay noticias disponibles por el momento."
+  nueva: "Nueva noticia"
+  editar: "Editar noticia"
+  eliminar: "Eliminar noticia"
+  confirmacion_eliminar: "¿Estás seguro de que deseas eliminar esta noticia?"
+  ver_mas_noticias: "Ver más noticias..."
+
+room:
+  titulo: "Habitaciones"
+  ultimas: "Últimas habitaciones"
+  nombre: "Nombre de la habitación"
+  descripcion: "Descripción"
+  propietario: "Propietario"
+  ver_en_habbo: "Ver en Habbo.es"
+  nueva: "Agregar habitación"
+  sin_habitaciones: "No hay habitaciones registradas."
+  id_habbo: "ID de Habbo"
+  ver_todos: "Ver todas las habitaciones"
+  ir_a_habitacion: "Ir a la habitación"
+
+team:
+  titulo: "Nuestro Equipo"
+  nombre: "Nombre del equipo"
+  descripcion: "Descripción"
+  miembros: "Miembros"
+  unirse: "Unirse al equipo"
+  salir: "Salir del equipo"
+  sin_equipos: "No hay equipos creados aún."
+  topics: "Nuestros topics en City"
+
+video:
+  titulo: "Videos"
+  nombre: "Título del video"
+  url: "Enlace del video"
+  subido_por: "Subido por"
+  nuevo: "Agregar video"
+  sin_videos: "No hay videos disponibles."
+
+flujo:
+  titulo: "Flujo de Staff"
+  llegada: "Llegada"
+  salida: "Salida"
+  cambio: "Cambio de rango"
+
+mensajes:
+  exito: "Operación realizada con éxito."
+  error: "Ocurrió un error. Inténtalo de nuevo."
+  sin_permiso: "No tienes permiso para realizar esta acción."
+  no_encontrado: "La página que buscas no existe."
+  campos_requeridos: "Por favor completa todos los campos requeridos."
+  guardado: "Los cambios han sido guardados."
+  eliminado: "El registro ha sido eliminado."
+
+paginacion:
+  anterior: "Anterior"
+  siguiente: "Siguiente"
+  pagina: "Página %numero% de %total%"
