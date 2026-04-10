@@ -1,144 +1,165 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_name }} : {{ user.username }}{% endblock %}
+{% block title %}{{ 'profile.titulo'|trans }} - {{ app.user.username }}{% endblock %}
 
 {% block body %}
-    <div class="profile-content flx-row w-100">
+<div class="profile-container">
 
-    <div class="user-infos flx-row">
+    {# ---- CABECERA DEL PERFIL ---- #}
+    <div class="profile-header">
+        <div class="profile-avatar-section">
 
-        {# Avatar usando Habbo.es - Hotel Español #}
-        <img class="avatar"
-             src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ user.username }}&action=std&direction=2&head_direction=3&gesture=sml&size=l"
-             alt="Avatar Habbo de {{ user.username }}"
-             width="90" height="160"
-             loading="lazy"
-             onerror="this.src='https://www.habbo.es/habbo-imaging/avatarimage?user=default&size=l'">
-
-        <div class="users-details flx-column">
-            <h1>{{ user.username }}</h1>
-            <span class="rank-box">{{ user.rank.name }}</span>
-            <h2>{{ 'profile.puntos'|trans }}: {{ user.points }}</h2>
-            <span>{{ 'profile.mision'|trans }}: <i>{{ userMotto }}</i></span>
-
-            {# Enlace directo al perfil en Habbo.es #}
-            <a href="https://www.habbo.es/es/profile/{{ user.username }}"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn-habbo-es">
-                🏨 {{ 'habbo.ver_perfil'|trans }}
-            </a>
-        </div>
-
-    </div>
-
-    <div class="user-last-comment flx-column">
-        {% if comments %}
-            {% for comment in comments %}
-                <div class="last-comment-content flx-row">
-                    <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ user.username }}&headonly=1&direction=2&head_direction=2&size=l"
-                         alt="Avatar de {{ user.username }}"
-                         width="45" height="90"
-                         loading="lazy">
-                    <div class="last-comment--content">
-                        <h2>{{ comment.articleId }}</h2>
-                        <span>{{ comment.content }}</span>
+            {# Avatar Habbo desde habbo.es (hotel español) #}
+            {% if app.user.habboNombre is not null and app.user.habboNombre != '' %}
+                <div class="habbo-avatar-wrapper">
+                    <img
+                        src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ app.user.habboNombre|url_encode }}&action=std&direction=2&head_direction=3&gesture=sml&size=l"
+                        alt="Avatar de {{ app.user.habboNombre }} en Habbo"
+                        width="90"
+                        height="160"
+                        loading="lazy"
+                        class="habbo-avatar-img"
+                        onerror="this.onerror=null; this.src='https://www.habbo.es/habbo-imaging/avatarimage?user=habbo&action=std&direction=2&head_direction=3&size=l';"
+                    />
+                    <div class="habbo-hotel-badge">
+                        <span>🏨 habbo.es</span>
                     </div>
                 </div>
+            {% else %}
+                <div class="habbo-avatar-placeholder">
+                    <span class="avatar-icon">👤</span>
+                    <p class="text-muted">{{ 'habbo.sin_nombre_habbo'|trans }}</p>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="profile-info-section">
+            <h1 class="profile-username">{{ app.user.username }}</h1>
+
+            {% if app.user.habboNombre %}
+                <p class="habbo-name">
+                    <span class="label">{{ 'habbo.nombre'|trans }}:</span>
+                    <strong>{{ app.user.habboNombre }}</strong>
+                </p>
+
+                {# Enlace directo al perfil en habbo.es #}
+                <a
+                    href="https://www.habbo.es/es/profile/{{ app.user.habboNombre|url_encode }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-habbo"
+                    title="{{ 'habbo.ver_perfil'|trans }} - {{ 'habbo.hotel'|trans }}"
+                >
+                    🏨 {{ 'habbo.ver_perfil'|trans }}
+                </a>
+
+                {# Enlace al hotel Habbo.es #}
+                <a
+                    href="https://www.habbo.es"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-habbo-hotel"
+                >
+                    🌐 {{ 'habbo.visitar_hotel'|trans }}
+                </a>
+            {% endif %}
+
+            <p class="profile-email">{{ app.user.email }}</p>
+            <p class="profile-joined">
+                {{ 'profile.miembro_desde'|trans }}: {{ app.user.createdAt|date('d/m/Y') }}
+            </p>
+        </div>
+    </div>
+
+    {# ---- ESTADÍSTICAS DEL PERFIL ---- #}
+    <div class="profile-stats">
+        <div class="stat-card">
+            <span class="stat-number">{{ habitaciones_count|default(0) }}</span>
+            <span class="stat-label">{{ 'room.titulo_plural'|trans }}</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">{{ noticias_count|default(0) }}</span>
+            <span class="stat-label">{{ 'news.titulo'|trans }}</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">{{ videos_count|default(0) }}</span>
+            <span class="stat-label">{{ 'video.titulo'|trans }}</span>
+        </div>
+    </div>
+
+    {# ---- FORMULARIO DE EDICIÓN ---- #}
+    {% if app.user is defined %}
+    <div class="profile-edit-section">
+        <h2>{{ 'profile.editar'|trans }}</h2>
+
+        {{ form_start(form, {'attr': {'class': 'profile-form'}}) }}
+
+            <div class="form-group">
+                {{ form_label(form.username, 'profile.nombre_usuario'|trans) }}
+                {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': app.user.username}}) }}
+                {{ form_errors(form.username) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.email, 'profile.correo'|trans) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.habboNombre, 'habbo.nombre'|trans) }}
+                {{ form_widget(form.habboNombre, {'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Tu nombre exacto en Habbo.es'
+                }}) }}
+                <small class="form-text text-muted">
+                    {{ 'register.nombre_habbo_ayuda'|trans }}
+                    — <a href="https://www.habbo.es" target="_blank" rel="noopener noreferrer">{{ 'habbo.hotel_espanol'|trans }}</a>
+                </small>
+                {{ form_errors(form.habboNombre) }}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {{ 'profile.guardar'|trans }}
+                </button>
+                <a href="{{ path('app_profile') }}" class="btn btn-secondary">
+                    {{ 'formulario.cancelar'|trans }}
+                </a>
+            </div>
+
+        {{ form_end(form) }}
+    </div>
+    {% endif %}
+
+    {# ---- HABITACIONES DEL USUARIO ---- #}
+    <div class="profile-rooms-section">
+        <h2>{{ 'profile.habitaciones'|trans }}</h2>
+
+        {% if habitaciones is not empty %}
+            <div class="rooms-grid">
+            {% for habitacion in habitaciones %}
+                <div class="room-card">
+                    <h3>{{ habitacion.name }}</h3>
+                    <p>{{ habitacion.description }}</p>
+                    {% if habitacion.habboRoomId %}
+                        <a
+                            href="https://www.habbo.es/es/hotel?roomId={{ habitacion.habboRoomId }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn btn-sm btn-habbo"
+                        >
+                            🏠 {{ 'room.ver_en_habbo'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
             {% endfor %}
+            </div>
         {% else %}
-            <span class="user-has-nocomment">{{ 'profile.sin_comentarios'|trans }}</span>
+            <p class="empty-state">{{ 'profile.sin_habitaciones'|trans }}</p>
         {% endif %}
     </div>
 
-    </div>
-
-    <div class="user-purse w-100 flx-row">
-        <div class="purse-box flx-row">
-            <div class="badge-list">
-                {% for badge in userBadges %}
-                    <img src="https://swf.habbocity.me/c_images/album1584/{{ badge.code }}.gif"
-                         alt="Insignia {{ badge.code }}"
-                         class="user-badge"
-                         loading="lazy">
-                {% endfor %}
-            </div>
-        </div>
-        <div class="purse-box diamonds-box flx-row">
-            <div class="diamonds-icon"></div>
-            <h2>{{ userDiamonds }} {{ 'profile.diamantes'|trans }}</h2>
-        </div>
-        {% if user.verified %}
-            <div class="purse-box user-verified">
-                <h2>{{ 'profile.verificado'|trans }}</h2>
-            </div>
-        {% else %}
-            <div class="purse-box user-not-verified">
-                <h2>{{ 'profile.no_verificado'|trans }}</h2>
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="netWorth-chart">
-        <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" type="application/javascript"></script>
-    <script>
-        let labelsArray = [];
-        let netWorth = [];
-        {% for data in userWealth %}
-            labelsArray.push({{ data.date }});
-            netWorth.push({{ data.netWorth }});
-        {% endfor %}
-        var ctx = document.getElementById('myChart').getContext('2d');
-        ctx.canvas.width = 1000;
-        ctx.canvas.height = 400;
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labelsArray.reverse(),
-                datasets: [{
-                    label: '{{ 'profile.riqueza_total'|trans }}',
-                    data: netWorth.reverse(),
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 3
-                }]
-            },
-            responsive: true,
-            options: {
-                animation: {
-                  duration: 1000,
-                  easing: 'easeOutQuart'
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-        Chart.defaults.global.defaultFontColor = 'white';
-        Chart.defaults.global.defaultFontFamily = 'Ubuntu Condensed';
-    </script>
+</div>
 {% endblock %}

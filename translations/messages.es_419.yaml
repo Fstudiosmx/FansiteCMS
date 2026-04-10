@@ -1,21 +1,28 @@
-# translations/messages.es_419.yaml
-# FansiteCMS - Traducción Español Latinoamérica (es_419)
-# Generado por: Perplexity AI para Fstudiosmx
+# =============================================================
+# FansiteCMS - Traducciones al Español Latinoamérica (es_419)
+# Hotel Habbo Español: https://www.habbo.es
+# =============================================================
 
+# -----------------------------------------------
+# Navegación general
+# -----------------------------------------------
 nav:
   inicio: "Inicio"
   noticias: "Noticias"
   habitaciones: "Habitaciones"
-  equipos: "Equipos"
+  equipos: "Equipo"
   videos: "Videos"
   perfil: "Mi Perfil"
   ingresar: "Ingresar"
   registrarse: "Registrarse"
   cerrar_sesion: "Cerrar Sesión"
   admin: "Administración"
-  ver_mas: "Ver más..."
-  ver_todos: "Ver todos"
+  buscar: "Buscar"
+  inicio_sesion: "Iniciar sesión"
 
+# -----------------------------------------------
+# Autenticación
+# -----------------------------------------------
 auth:
   correo: "Correo electrónico"
   contrasena: "Contraseña"
@@ -24,25 +31,42 @@ auth:
   ingresar: "Ingresar"
   registrarse: "Crear cuenta"
   ya_tienes_cuenta: "¿Ya tienes cuenta? Ingresa aquí"
-  no_tienes_cuenta: "¿No tienes cuenta? Regístrate"
+  no_tienes_cuenta: "¿No tienes cuenta? Regístrate gratis"
   bienvenido: "¡Bienvenido de vuelta, %nombre%!"
   logout_exitoso: "Sesión cerrada correctamente."
-  error_credenciales: "Nombre de usuario o contraseña incorrectos."
-  titulo_login: "Iniciar Sesión"
-  nombre_usuario: "Nombre de usuario"
+  error_credenciales: "Correo o contraseña incorrectos. Inténtalo de nuevo."
+  cuenta_bloqueada: "Tu cuenta ha sido suspendida. Contacta al administrador."
+  sesion_expirada: "Tu sesión ha expirado. Por favor vuelve a ingresar."
+  titulo_login: "Inicia sesión en tu cuenta"
 
+# -----------------------------------------------
+# Registro de cuenta
+# -----------------------------------------------
 register:
-  titulo: "Crear nueva cuenta"
+  titulo: "Crea tu cuenta gratis"
+  subtitulo: "Únete a la comunidad de Habbo en Español"
   nombre_usuario: "Nombre de usuario"
+  nombre_usuario_placeholder: "Ej: HabboFan2024"
   correo: "Correo electrónico"
+  correo_placeholder: "tu@correo.com"
   contrasena: "Contraseña"
+  contrasena_placeholder: "Mínimo 8 caracteres"
   confirmar_contrasena: "Confirmar contraseña"
+  confirmar_contrasena_placeholder: "Repite tu contraseña"
   nombre_habbo: "Tu nombre en Habbo"
+  nombre_habbo_placeholder: "Ej: MiPersonajeHabbo"
+  nombre_habbo_ayuda: "Ingresa exactamente tu nombre de Habbo para mostrar tu avatar"
   boton: "¡Únete ahora!"
   exito: "¡Cuenta creada exitosamente! Ya puedes ingresar."
-  error_usuario_existe: "Este nombre de usuario ya está en uso."
-  error_correo_existe: "Este correo ya está registrado."
+  error_usuario_existe: "Este nombre de usuario ya está en uso. Prueba con otro."
+  error_correo_existe: "Este correo ya está registrado. ¿Olvidaste tu contraseña?"
+  error_contrasena_corta: "La contraseña debe tener al menos 8 caracteres."
+  error_contrasenas_no_coinciden: "Las contraseñas no coinciden."
+  terminos: "Al registrarte aceptas nuestros términos de uso"
 
+# -----------------------------------------------
+# Perfil de usuario
+# -----------------------------------------------
 profile:
   titulo: "Mi Perfil"
   nombre_usuario: "Nombre de usuario"
@@ -54,85 +78,185 @@ profile:
   guardar: "Guardar cambios"
   habitaciones: "Mis habitaciones"
   sin_habitaciones: "Aún no tienes habitaciones registradas."
-  puntos: "Puntos"
-  mision: "Misión"
-  rango: "Rango"
-  diamantes: "diamantes"
-  verificado: "Este usuario está verificado"
-  no_verificado: "Este usuario no está verificado"
-  sin_comentarios: "Este usuario no tiene comentarios aún."
-  riqueza_total: "Riqueza total"
-  badges: "Insignias"
-  ultimos_comentarios: "Últimos comentarios"
+  miembro_desde: "Miembro desde"
+  ultimo_acceso: "Último acceso"
+  publicaciones: "Publicaciones"
+  seguidores: "Seguidores"
+  siguiendo: "Siguiendo"
+  cambiar_contrasena: "Cambiar contraseña"
+  foto_perfil: "Foto de perfil"
 
+# -----------------------------------------------
+# Avatar e integración con Habbo.es
+# -----------------------------------------------
 habbo:
   avatar_titulo: "Avatar de Habbo"
   hotel: "Hotel Habbo Español"
   ver_perfil: "Ver perfil en Habbo.es"
-  nombre: "Nombre Habbo"
+  nombre: "Nombre en Habbo"
   hotel_url: "https://www.habbo.es"
   avatar_base_url: "https://www.habbo.es/habbo-imaging/avatarimage"
+  perfil_url: "https://www.habbo.es/es/profile"
+  sin_nombre_habbo: "No has vinculado tu cuenta de Habbo"
+  vincular: "Vincular cuenta Habbo"
+  actualizar_avatar: "Actualizar avatar"
+  hotel_espanol: "Hotel Oficial en Español"
+  visitar_hotel: "Visitar Hotel"
 
+# -----------------------------------------------
+# Noticias
+# -----------------------------------------------
 news:
   titulo: "Últimas Noticias"
-  actualidad: "Actualidad"
+  todas: "Ver todas las noticias"
   leer_mas: "Leer más"
   publicado_por: "Publicado por"
   publicado_el: "el"
   sin_noticias: "No hay noticias disponibles por el momento."
-  nueva: "Nueva noticia"
+  nueva: "Publicar noticia"
   editar: "Editar noticia"
   eliminar: "Eliminar noticia"
-  confirmacion_eliminar: "¿Estás seguro de que deseas eliminar esta noticia?"
-  ver_mas_noticias: "Ver más noticias..."
+  confirmacion_eliminar: "¿Estás seguro de que deseas eliminar esta noticia? Esta acción no se puede deshacer."
+  comentarios: "Comentarios"
+  compartir: "Compartir"
+  categoria: "Categoría"
+  etiquetas: "Etiquetas"
+  titulo_noticia: "Título"
+  contenido: "Contenido"
+  resumen: "Resumen"
+  imagen_portada: "Imagen de portada"
+  publicar: "Publicar"
+  borrador: "Guardar como borrador"
 
+# -----------------------------------------------
+# Habitaciones de Habbo
+# -----------------------------------------------
 room:
   titulo: "Habitaciones"
-  ultimas: "Últimas habitaciones"
+  titulo_plural: "Habitaciones de Habbo"
   nombre: "Nombre de la habitación"
   descripcion: "Descripción"
   propietario: "Propietario"
   ver_en_habbo: "Ver en Habbo.es"
   nueva: "Agregar habitación"
-  sin_habitaciones: "No hay habitaciones registradas."
-  id_habbo: "ID de Habbo"
-  ver_todos: "Ver todas las habitaciones"
-  ir_a_habitacion: "Ir a la habitación"
+  editar: "Editar habitación"
+  eliminar: "Eliminar habitación"
+  sin_habitaciones: "No hay habitaciones registradas todavía."
+  id_habbo: "ID en Habbo"
+  visitas: "Visitas"
+  categoria: "Categoría"
+  puntaje: "Puntaje"
+  usuarios_dentro: "Usuarios dentro"
+  abierta: "Habitación abierta"
+  cerrada: "Habitación privada"
 
+# -----------------------------------------------
+# Equipos del sitio
+# -----------------------------------------------
 team:
   titulo: "Nuestro Equipo"
   nombre: "Nombre del equipo"
   descripcion: "Descripción"
   miembros: "Miembros"
-  unirse: "Unirse al equipo"
+  unirse: "Unirme al equipo"
   salir: "Salir del equipo"
   sin_equipos: "No hay equipos creados aún."
-  topics: "Nuestros topics en City"
+  rol: "Rol"
+  fundador: "Fundador"
+  administrador: "Administrador"
+  moderador: "Moderador"
+  miembro: "Miembro"
+  nuevo_equipo: "Crear equipo"
+  invitar: "Invitar miembro"
 
+# -----------------------------------------------
+# Videos
+# -----------------------------------------------
 video:
   titulo: "Videos"
+  titulo_plural: "Galería de Videos"
   nombre: "Título del video"
   url: "Enlace del video"
   subido_por: "Subido por"
   nuevo: "Agregar video"
-  sin_videos: "No hay videos disponibles."
+  editar: "Editar video"
+  eliminar: "Eliminar video"
+  sin_videos: "No hay videos disponibles todavía."
+  descripcion: "Descripción"
+  duracion: "Duración"
+  vistas: "Vistas"
+  me_gusta: "Me gusta"
+  compartir: "Compartir"
+  ver_video: "Ver video"
 
-flujo:
-  titulo: "Flujo de Staff"
-  llegada: "Llegada"
-  salida: "Salida"
-  cambio: "Cambio de rango"
-
+# -----------------------------------------------
+# Mensajes del sistema y validación
+# -----------------------------------------------
 mensajes:
   exito: "Operación realizada con éxito."
-  error: "Ocurrió un error. Inténtalo de nuevo."
+  error: "Ocurrió un error inesperado. Por favor inténtalo de nuevo."
   sin_permiso: "No tienes permiso para realizar esta acción."
   no_encontrado: "La página que buscas no existe."
   campos_requeridos: "Por favor completa todos los campos requeridos."
-  guardado: "Los cambios han sido guardados."
+  guardado: "Los cambios han sido guardados correctamente."
   eliminado: "El registro ha sido eliminado."
+  confirmacion: "¿Estás seguro de que deseas continuar?"
+  cargando: "Cargando..."
+  sin_resultados: "No se encontraron resultados."
+  sesion_requerida: "Debes iniciar sesión para acceder a esta sección."
+  mantenimiento: "El sitio está en mantenimiento. Vuelve pronto."
 
+# -----------------------------------------------
+# Paginación
+# -----------------------------------------------
 paginacion:
   anterior: "Anterior"
   siguiente: "Siguiente"
+  primera: "Primera"
+  ultima: "Última"
   pagina: "Página %numero% de %total%"
+  mostrar: "Mostrar"
+  resultados_por_pagina: "resultados por página"
+  total: "%total% resultados encontrados"
+
+# -----------------------------------------------
+# Formularios generales
+# -----------------------------------------------
+formulario:
+  guardar: "Guardar"
+  cancelar: "Cancelar"
+  editar: "Editar"
+  eliminar: "Eliminar"
+  buscar: "Buscar"
+  limpiar: "Limpiar"
+  enviar: "Enviar"
+  subir: "Subir archivo"
+  seleccionar: "Seleccionar"
+  campo_requerido: "Este campo es obligatorio"
+  campo_invalido: "El valor ingresado no es válido"
+
+# -----------------------------------------------
+# Fechas y tiempos (relativos)
+# -----------------------------------------------
+tiempo:
+  hace_segundos: "hace %n% segundos"
+  hace_minutos: "hace %n% minutos"
+  hace_horas: "hace %n% horas"
+  hace_dias: "hace %n% días"
+  hace_semanas: "hace %n% semanas"
+  hace_meses: "hace %n% meses"
+  hace_anios: "hace %n% años"
+  ahora: "justo ahora"
+  hoy: "hoy"
+  ayer: "ayer"
+
+# -----------------------------------------------
+# Footer y páginas legales
+# -----------------------------------------------
+footer:
+  derechos: "Todos los derechos reservados."
+  terminos: "Términos de Uso"
+  privacidad: "Política de Privacidad"
+  contacto: "Contacto"
+  desarrollado_por: "Desarrollado con ❤️ para la comunidad de Habbo"
+  hotel_oficial: "Habbo es una marca registrada de Sulake Corporation Oy"

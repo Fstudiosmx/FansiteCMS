@@ -1,130 +1,112 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
-{% block title %}{{ site_name }} : {{ 'nav.inicio'|trans }}{% endblock %}
+{% block title %}Inicio - {{ site_name }}{% endblock %}
 
-{%  block body %}
+{% block body %}
+<div class="home-container">
 
-    <div class="page-info">
-        <img src="https://images.habbo.com/c_images/HabboWay/habboway_2a.png" alt="Bienvenida">
-        <div class="page-info--content">
-            <h1>{{ 'nav.inicio'|trans }}</h1>
-            <span>Bienvenido a nuestro sitio, aquí podrás descubrir la actualidad y los concursos organizados por nuestro equipo.</span>
-        </div>
-    </div>
-
-    <h1>{{ 'news.actualidad'|trans }}</h1>
-
-    <div class="index-news-list flx-row">
-
-        <a href="/news/{{ lastarticle[0].id }}" id="last-news" style="background-image: url('{{ lastarticle[0].ImaageUrL }}')">
-            <div class="last-article-content w-100">
-                <div id="article-title">
-                    <span id="article-title-text">{{ lastarticle[0].title }}</span>
-                </div>
-            </div>
-        </a>
-
-        <div class="other-news flx-column">
-            <a href="/news/{{ lastarticle[1].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[1].ImaageUrL }}')">
-                <div class="last-article-content w-100">
-                    <div id="article-title">
-                        <span id="article-title-text">{{ lastarticle[1].title }}</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/news/{{ lastarticle[2].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[2].ImaageUrL }}')">
-                <div class="last-article-content w-100">
-                    <div id="article-title">
-                        <span id="article-title-text">{{ lastarticle[2].title }}</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/news/{{ lastarticle[3].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[3].ImaageUrL }}')">
-                <div class="last-article-content w-100">
-                    <div id="article-title">
-                        <span id="article-title-text">{{ lastarticle[3].title }}</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-    </div>
-
-    <div class="w-100" id="btn-see-more">
-        <a href="/news">{{ 'news.ver_mas_noticias'|trans }} <i class="fi-rr-eye"></i></a>
-    </div>
-
-    <div class="index-two-columns flx-row">
-        <div class="last-appartments">
-            <h1>{{ 'room.ultimas'|trans }}</h1>
-
-            {% for room in lastroom %}
-                <div class="appartment flx-row w-100">
-                    <div id="room-icon" style="background-image: url('{{ room.thumbnail }}')"></div>
-                    <div id="room-desc">
-                        <h2>{{ room.name }}</h2>
-                        <span id="room-slug">{{ room.description }}</span>
-                    </div>
-                    <a href="#" class="gotoroom" title="{{ 'room.ir_a_habitacion'|trans }}">
-                        <i class="fi-rr-angle-double-small-right"></i>
+    {# ---- BANNER PRINCIPAL ---- #}
+    <div class="home-banner">
+        <div class="banner-content">
+            <h1 class="banner-title">¡Bienvenido a {{ site_name }}!</h1>
+            <p class="banner-subtitle">El fansite oficial de Habbo Hotel en Español Latinoamérica</p>
+            {% if not app.user %}
+                <div class="banner-actions">
+                    <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg">
+                        🎮 {{ 'register.boton'|trans }}
+                    </a>
+                    <a href="{{ path('app_login') }}" class="btn btn-secondary btn-lg">
+                        {{ 'auth.ingresar'|trans }}
                     </a>
                 </div>
-            {% endfor %}
+            {% else %}
+                <p class="banner-welcome">{{ 'auth.bienvenido'|trans({'%nombre%': app.user.username}) }}</p>
+            {% endif %}
+            <a
+                href="https://www.habbo.es"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-habbo-hotel"
+            >
+                🏨 Jugar en Habbo.es (Hotel Español)
+            </a>
+        </div>
+    </div>
 
-            <div id="btn-see-more">
-                <a href="/room">{{ 'room.ver_todos'|trans }} <i class="fi-rr-eye"></i></a>
-            </div>
+    {# ---- ÚLTIMAS NOTICIAS ---- #}
+    <section class="home-section">
+        <div class="section-header">
+            <h2>{{ 'news.titulo'|trans }}</h2>
+            <a href="{{ path('app_news') }}" class="ver-todas">{{ 'news.todas'|trans }} →</a>
         </div>
 
-        <div class="last-forum-posts">
-            <h1>{{ 'team.topics'|trans }}</h1>
-            {% for post in forumPosts %}
-                <div class="forum-post flx-row w-100">
-                    {# Avatar del foro usando Habbo.es #}
-                    <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ post.author }}&headonly=0&direction=2&head_direction=2&size=l"
-                         alt="Avatar de {{ post.author }}"
-                         width="45" height="90"
-                         loading="lazy"
-                         onerror="this.src='https://www.habbo.es/habbo-imaging/avatarimage?user=default&size=l'">
-                    <div class="forum-post-desc flx-column">
-                        <h3>{{ post.title }}</h3>
-                        <span>{{ post.description }}</span>
-                        <span class="auteur">{{ post.author }}</span>
+        {% if noticias is not empty %}
+            <div class="news-grid">
+            {% for noticia in noticias|slice(0, 6) %}
+                <article class="news-card">
+                    {% if noticia.imagenPortada %}
+                        <img
+                            src="{{ noticia.imagenPortada }}"
+                            alt="{{ noticia.title }}"
+                            loading="lazy"
+                            class="news-card-image"
+                        />
+                    {% endif %}
+                    <div class="news-card-body">
+                        <h3 class="news-card-title">{{ noticia.title }}</h3>
+                        <p class="news-card-meta">
+                            {{ 'news.publicado_por'|trans }}
+                            <strong>{{ noticia.author.username }}</strong>
+                            {{ 'news.publicado_el'|trans }}
+                            {{ noticia.publishedAt ? noticia.publishedAt|date('d/m/Y') : noticia.createdAt|date('d/m/Y') }}
+                        </p>
+                        {% if noticia.resumen %}
+                            <p class="news-card-excerpt">{{ noticia.resumen }}</p>
+                        {% endif %}
+                        <a href="{{ path('app_news_show', {'slug': noticia.slug}) }}" class="btn btn-sm btn-outline">
+                            {{ 'news.leer_mas'|trans }} →
+                        </a>
                     </div>
-                    <a href="{{ post.forumlink }}" class="gotoroom" target="_blank" rel="noopener noreferrer">
-                        <i class="fi-rr-angle-double-small-right"></i>
-                    </a>
+                </article>
+            {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-state">{{ 'news.sin_noticias'|trans }}</p>
+        {% endif %}
+    </section>
+
+    {# ---- HABITACIONES DESTACADAS ---- #}
+    <section class="home-section">
+        <div class="section-header">
+            <h2>{{ 'room.titulo_plural'|trans }}</h2>
+            <a href="{{ path('app_room') }}" class="ver-todas">Ver todas →</a>
+        </div>
+
+        {% if habitaciones is not empty %}
+            <div class="rooms-grid">
+            {% for habitacion in habitaciones|slice(0, 4) %}
+                <div class="room-card">
+                    <div class="room-card-body">
+                        <h3>{{ habitacion.name }}</h3>
+                        <p class="text-muted">{{ 'room.propietario'|trans }}: {{ habitacion.owner.username }}</p>
+                        {% if habitacion.habboRoomId %}
+                            <a
+                                href="https://www.habbo.es/es/hotel?roomId={{ habitacion.habboRoomId }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-sm btn-habbo"
+                            >
+                                🏠 {{ 'room.ver_en_habbo'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
-        </div>
-    </div>
-
-    <h1>{{ 'flujo.titulo'|trans }}</h1>
-
-    <div class="flux-city flx-row w-100">
-        {% for data in staffStream %}
-        <div class="box-flux flx-row">
-            {# Avatar del flujo usando Habbo.es #}
-            <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ data.pseudo }}&headonly=0&direction=2&head_direction=2&size=l"
-                 alt="Avatar de {{ data.pseudo }}"
-                 width="45" height="90"
-                 loading="lazy"
-                 onerror="this.src='https://www.habbo.es/habbo-imaging/avatarimage?user=default&size=l'">
-            <div class="box-flux--desc flx-column">
-                <h2>{{ data.pseudo }}</h2>
-                <span>{{ data.rank }}</span>
-                <span>{{ data.date|date("d/m/Y") }}</span>
             </div>
-            {% if data.type == 'QUIT' %}
-                <i class="fi-rr-arrow-down arrow-down" title="{{ 'flujo.salida'|trans }}"></i>
-            {% endif %}
-            {% if data.type == 'ARRIVAL' %}
-                <i class="fi-rr-arrow-up arrow-up" title="{{ 'flujo.llegada'|trans }}"></i>
-            {% endif %}
-            {% if data.type == 'SWITCH' %}
-                <i class="fi-rr-rotate-right" title="{{ 'flujo.cambio'|trans }}"></i>
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
+        {% else %}
+            <p class="empty-state">{{ 'room.sin_habitaciones'|trans }}</p>
+        {% endif %}
+    </section>
+
+</div>
 {% endblock %}

@@ -1,20 +1,144 @@
-{% extends 'base.html.twig'%}
+{% extends 'base.html.twig' %}
 
-{% block title %} {{ site_name }} : {{ 'register.titulo'|trans }} {% endblock %}
+{% block title %}{{ 'register.titulo'|trans }} - {{ site_name }}{% endblock %}
 
 {% block body %}
-<h1>{{ 'register.titulo'|trans }}</h1>
-    <div class="registration--content flx-row">
+<div class="auth-container">
+    <div class="auth-card auth-card--wide">
 
-    {{ form_start(register_form, {'attr': {'id': 'register-form'}}) }}
-    {{ form_widget(register_form) }}
-        <button type="submit" class="btn btn-primary">{{ 'register.boton'|trans }}</button>
-    {{ form_end(register_form) }}
+        {# Cabecera #}
+        <div class="auth-header">
+            <img
+                src="https://images.habbo.com/habbo-web-client/v4.2.2.4/desktop/icon.png"
+                alt="Habbo Hotel"
+                width="48"
+                height="48"
+                loading="lazy"
+            />
+            <h1>{{ 'register.titulo'|trans }}</h1>
+            <p class="auth-subtitle">{{ 'register.subtitulo'|trans }}</p>
+        </div>
 
-        {# Imagen de bienvenida de Habbo.es - hotel español #}
-        <img src="https://www.habbo.es/habbo-web/spain/es/assets/images/teaser_registration.png"
-             alt="{{ 'register.titulo'|trans }}"
-             onerror="this.src='https://images.habbo.com/habbo-web/america/en/assets/images/teaser_registration.d401d183.png'">
+        {# Mensajes flash #}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-error" role="alert">
+                ⚠️ {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                ✅ {{ message }}
+            </div>
+        {% endfor %}
+
+        {# Formulario de registro #}
+        {{ form_start(registrationForm, {'attr': {'class': 'auth-form', 'novalidate': 'novalidate'}}) }}
+
+            <div class="form-group">
+                <label for="registration_form_username">{{ 'register.nombre_usuario'|trans }}</label>
+                {{ form_widget(registrationForm.username, {'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'register.nombre_usuario_placeholder'|trans
+                }}) }}
+                {{ form_errors(registrationForm.username) }}
+            </div>
+
+            <div class="form-group">
+                <label for="registration_form_email">{{ 'register.correo'|trans }}</label>
+                {{ form_widget(registrationForm.email, {'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'register.correo_placeholder'|trans
+                }}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            {# Nombre en Habbo + preview de avatar #}
+            <div class="form-group habbo-name-group">
+                <label for="registration_form_habboNombre">{{ 'register.nombre_habbo'|trans }}</label>
+                <div class="habbo-input-wrapper">
+                    <input
+                        type="text"
+                        id="registration_form_habboNombre"
+                        name="registration_form[habboNombre]"
+                        class="form-control"
+                        placeholder="{{ 'register.nombre_habbo_placeholder'|trans }}"
+                        oninput="actualizarAvatarPreview(this.value)"
+                        autocomplete="off"
+                    />
+                    {# Preview en tiempo real del avatar Habbo #}
+                    <div class="habbo-avatar-preview" id="habboAvatarPreview" style="display:none;">
+                        <img
+                            id="habboAvatarImg"
+                            src=""
+                            alt="Preview de avatar Habbo"
+                            width="60"
+                            height="110"
+                        />
+                        <a id="habboProfileLink" href="#" target="_blank" rel="noopener noreferrer" class="habbo-preview-link">
+                            Ver en habbo.es
+                        </a>
+                    </div>
+                </div>
+                <small class="form-text text-muted">
+                    {{ 'register.nombre_habbo_ayuda'|trans }}
+                    — <a href="https://www.habbo.es" target="_blank" rel="noopener noreferrer">habbo.es</a>
+                </small>
+                {{ form_errors(registrationForm.habboNombre) }}
+            </div>
+
+            <div class="form-group">
+                <label for="registration_form_plainPassword">{{ 'register.contrasena'|trans }}</label>
+                {{ form_widget(registrationForm.plainPassword, {'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'register.contrasena_placeholder'|trans
+                }}) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+
+            <div class="form-group">
+                <label>{{ 'register.terminos'|trans }}</label>
+                <div class="form-check">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                    <label class="form-check-label" for="registration_form_agreeTerms">
+                        {{ 'register.terminos'|trans }}
+                    </label>
+                </div>
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                {{ 'register.boton'|trans }}
+            </button>
+
+        {{ form_end(registrationForm) }}
+
+        {# Enlace a login #}
+        <div class="auth-footer">
+            <a href="{{ path('app_login') }}">
+                {{ 'auth.ya_tienes_cuenta'|trans }}
+            </a>
+        </div>
 
     </div>
+</div>
+
+{# Script para preview de avatar Habbo en tiempo real #}
+<script>
+function actualizarAvatarPreview(nombre) {
+    const preview = document.getElementById('habboAvatarPreview');
+    const img = document.getElementById('habboAvatarImg');
+    const link = document.getElementById('habboProfileLink');
+
+    if (nombre && nombre.trim().length > 2) {
+        const nombreEncoded = encodeURIComponent(nombre.trim());
+        img.src = 'https://www.habbo.es/habbo-imaging/avatarimage?user=' + nombreEncoded + '&action=std&direction=2&head_direction=3&gesture=sml&size=m';
+        img.alt = 'Avatar de ' + nombre + ' en Habbo';
+        link.href = 'https://www.habbo.es/es/profile/' + nombreEncoded;
+        link.textContent = 'Ver ' + nombre + ' en habbo.es';
+        preview.style.display = 'flex';
+    } else {
+        preview.style.display = 'none';
+    }
+}
+</script>
 {% endblock %}
