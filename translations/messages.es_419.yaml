@@ -1,0 +1,201 @@
+# FansiteCMS — Traducciones Español Latinoamérica (es_419)
+# Generado automáticamente — Abril 2026
+
+# ─── Navegación general ───────────────────────────────────────────────────────
+nav:
+  inicio: "Inicio"
+  noticias: "Noticias"
+  habitaciones: "Habitaciones"
+  equipos: "Equipos"
+  videos: "Videos"
+  perfil: "Mi Perfil"
+  ingresar: "Ingresar"
+  registrarse: "Registrarse"
+  cerrar_sesion: "Cerrar Sesión"
+  admin: "Administración"
+  inicio_sesion: "Iniciar sesión"
+
+# ─── Autenticación ────────────────────────────────────────────────────────────
+auth:
+  titulo: "Bienvenido de vuelta"
+  correo: "Correo electrónico"
+  contrasena: "Contraseña"
+  recordarme: "Recordarme"
+  olvide_contrasena: "¿Olvidaste tu contraseña?"
+  ingresar: "Ingresar"
+  registrarse: "Crear cuenta"
+  ya_tienes_cuenta: "¿Ya tienes cuenta? Ingresa aquí"
+  no_tienes_cuenta: "¿No tienes cuenta? Regístrate"
+  bienvenido: "¡Bienvenido de vuelta, %nombre%!"
+  logout_exitoso: "Sesión cerrada correctamente."
+  error_credenciales: "Correo o contraseña incorrectos. Inténtalo de nuevo."
+  cuenta_bloqueada: "Tu cuenta ha sido bloqueada temporalmente."
+
+# ─── Registro ─────────────────────────────────────────────────────────────────
+register:
+  titulo: "Crear nueva cuenta"
+  subtitulo: "Únete a la comunidad Habbo"
+  nombre_usuario: "Nombre de usuario"
+  correo: "Correo electrónico"
+  contrasena: "Contraseña"
+  confirmar_contrasena: "Confirmar contraseña"
+  nombre_habbo: "Tu nombre en Habbo"
+  boton: "¡Únete ahora!"
+  exito: "¡Cuenta creada exitosamente! Ya puedes ingresar."
+  error_usuario_existe: "Este nombre de usuario ya está en uso."
+  error_correo_existe: "Este correo ya está registrado."
+  error_contrasenas: "Las contraseñas no coinciden."
+  error_contrasena_corta: "La contraseña debe tener al menos 8 caracteres."
+  terminos: "Al registrarte aceptas nuestros términos y condiciones."
+
+# ─── Perfil ───────────────────────────────────────────────────────────────────
+profile:
+  titulo: "Mi Perfil"
+  nombre_usuario: "Nombre de usuario"
+  correo: "Correo electrónico"
+  nombre_habbo: "Nombre en Habbo"
+  avatar: "Mi Avatar Habbo"
+  ver_habbo: "Ver en Habbo.es"
+  editar: "Editar perfil"
+  guardar: "Guardar cambios"
+  habitaciones: "Mis habitaciones"
+  sin_habitaciones: "Aún no tienes habitaciones registradas."
+  miembro_desde: "Miembro desde"
+  rol: "Rol"
+  insignias: "Mis insignias"
+  sin_insignias: "Aún no tienes insignias."
+
+# ─── Avatar / Hotel Habbo ES ──────────────────────────────────────────────────
+habbo:
+  avatar_titulo: "Avatar de Habbo"
+  hotel: "Hotel Habbo Español"
+  ver_perfil: "Ver perfil en habbo.es"
+  nombre: "Nombre Habbo"
+  hotel_url: "https://www.habbo.es"
+  avatar_base_url: "https://www.habbo.es/habbo-imaging/avatarimage"
+  sin_avatar: "Sin avatar de Habbo"
+  configura_nombre: "Configura tu nombre de Habbo en tu perfil para ver tu avatar."
+  ir_al_hotel: "Ir al Hotel Habbo.es"
+  jugar_ahora: "¡Jugar ahora en Habbo.es!"
+
+# ─── Noticias ─────────────────────────────────────────────────────────────────
+news:
+  titulo: "Últimas Noticias"
+  leer_mas: "Leer más"
+  publicado_por: "Publicado por"
+  publicado_el: "el"
+  sin_noticias: "No hay noticias disponibles por el momento."
+  nueva: "Nueva noticia"
+  editar: "Editar noticia"
+  eliminar: "Eliminar noticia"
+  confirmacion_eliminar: "¿Estás seguro de que deseas eliminar esta noticia?"
+  titulo_campo: "Título"
+  contenido: "Contenido"
+  publicar: "Publicar"
+  borrador: "Guardar como borrador"
+  fecha: "Fecha de publicación"
+
+# ─── Habitaciones ─────────────────────────────────────────────────────────────
+room:
+  titulo: "Habitaciones"
+  nombre: "Nombre de la habitación"
+  descripcion: "Descripción"
+  propietario: "Propietario"
+  ver_en_habbo: "Ver en Habbo.es"
+  nueva: "Agregar habitación"
+  sin_habitaciones: "No hay habitaciones registradas."
+  id_habbo: "ID de Habbo"
+  editar: "Editar habitación"
+  eliminar: "Eliminar habitación"
+  confirmacion_eliminar: "¿Deseas eliminar esta habitación?"
+  visitas: "Visitas"
+  calificacion: "Calificación"
+
+# ─── Equipos ──────────────────────────────────────────────────────────────────
+team:
+  titulo: "Nuestro Equipo"
+  nombre: "Nombre del equipo"
+  descripcion: "Descripción"
+  miembros: "Miembros"
+  unirse: "Unirse al equipo"
+  salir: "Salir del equipo"
+  sin_equipos: "No hay equipos creados aún."
+  nuevo: "Nuevo equipo"
+  editar: "Editar equipo"
+  eliminar: "Eliminar equipo"
+  lider: "Líder"
+  cargo: "Cargo"
+
+# ─── Videos ───────────────────────────────────────────────────────────────────
+video:
+  titulo: "Videos"
+  nombre: "Título del video"
+  url: "Enlace del video"
+  subido_por: "Subido por"
+  nuevo: "Agregar video"
+  sin_videos: "No hay videos disponibles."
+  editar: "Editar video"
+  eliminar: "Eliminar video"
+  descripcion: "Descripción"
+  ver: "Ver video"
+
+# ─── Mensajes generales ───────────────────────────────────────────────────────
+mensajes:
+  exito: "Operación realizada con éxito."
+  error: "Ocurrió un error. Inténtalo de nuevo."
+  sin_permiso: "No tienes permiso para realizar esta acción."
+  no_encontrado: "La página que buscas no existe."
+  campos_requeridos: "Por favor completa todos los campos requeridos."
+  guardado: "Los cambios han sido guardados."
+  eliminado: "El registro ha sido eliminado."
+  confirmacion: "¿Estás seguro de que deseas continuar?"
+  cancelar: "Cancelar"
+  aceptar: "Aceptar"
+  cerrar: "Cerrar"
+  cargando: "Cargando..."
+  buscar: "Buscar"
+
+# ─── Paginación ───────────────────────────────────────────────────────────────
+paginacion:
+  anterior: "Anterior"
+  siguiente: "Siguiente"
+  pagina: "Página %numero% de %total%"
+  resultados: "%total% resultados encontrados"
+
+# ─── Formularios ──────────────────────────────────────────────────────────────
+form:
+  guardar: "Guardar"
+  cancelar: "Cancelar"
+  eliminar: "Eliminar"
+  editar: "Editar"
+  nuevo: "Nuevo"
+  buscar: "Buscar"
+  limpiar: "Limpiar"
+  subir: "Subir archivo"
+  seleccionar: "Seleccionar"
+  requerido: "Este campo es obligatorio."
+  invalido: "El valor ingresado no es válido."
+
+# ─── Admin ────────────────────────────────────────────────────────────────────
+admin:
+  titulo: "Panel de Administración"
+  usuarios: "Usuarios"
+  noticias: "Noticias"
+  habitaciones: "Habitaciones"
+  equipos: "Equipos"
+  videos: "Videos"
+  configuracion: "Configuración"
+  estadisticas: "Estadísticas"
+  total_usuarios: "Total de usuarios"
+  total_noticias: "Total de noticias"
+  bienvenida: "Bienvenido al panel de control, %nombre%"
+
+# ─── Errores HTTP ─────────────────────────────────────────────────────────────
+error:
+  404_titulo: "Página no encontrada"
+  404_mensaje: "La página que buscas no existe o fue eliminada."
+  403_titulo: "Acceso denegado"
+  403_mensaje: "No tienes permiso para ver esta página."
+  500_titulo: "Error del servidor"
+  500_mensaje: "Ocurrió un error interno. Por favor intenta más tarde."
+  volver_inicio: "Volver al inicio"

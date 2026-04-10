@@ -1,45 +1,103 @@
 <!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="description" content="Voici un CMS de Fansite exclusivement réservé aux organisations d'Habbocity">
-        <link rel="stylesheet" type="text/css" href="/assets/uicons/css/uicons-regular-rounded.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="https://images.habbo.com/habbo-web/america/en/assets/images/favicon.08c747be.ico">
-        <title>{% block title %}{{ site_name }} :{% endblock %}</title>
-        {% block stylesheets %}
-            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
-            {{ encore_entry_link_tags('style') }}
-
-            <!-- Renders a link tag (if your module requires any CSS)
-                 <link rel="stylesheet" href="/build/app.css"> -->
-        {% endblock %}
-    </head>
-    <body>
-    <!-- Header -->
-    {{ block('sidemenu', "menu/index.html.twig") }}
-
-    <!-- Container right side -->
-    <div id="container" class="flx-column">
-     {{ block('header', "components/global/header.html.twig") }}
-
-        <div class="page-content">
-
-        {% block body %}
-
-
-        {% endblock %}
-        </div>
-
-    </div>
-    </body>
-
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FansiteCMS{% endblock %} — Hotel Habbo</title>
+    <meta name="description" content="FansiteCMS — Fansite oficial del hotel Habbo en español">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
-        <!-- Renders app.js & a webpack runtime.js file
-            <script src="/build/runtime.js" defer></script>
-            <script src="/build/app.js" defer></script>
-            See note below about the "defer" attribute -->
     {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ path('app_index') }}">
+            🏨 FansiteCMS
+        </a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="{{ 'nav.inicio'|trans }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_index') }}">{{ 'nav.inicio'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_news_index') }}">{{ 'nav.noticias'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_room_index') }}">{{ 'nav.habitaciones'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_team_index') }}">{{ 'nav.equipos'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_video_index') }}">{{ 'nav.videos'|trans }}</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_profile') }}">
+                            {% if app.user.habboNombre %}
+                                <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ app.user.habboNombre }}&action=std&direction=2&head_direction=3&gesture=sml&size=s"
+                                     alt="Avatar de {{ app.user.habboNombre }}"
+                                     width="30" height="40"
+                                     style="vertical-align:middle;margin-right:6px;">
+                            {% endif %}
+                            {{ app.user.username }}
+                        </a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" href="{{ path('admin') }}">{{ 'nav.admin'|trans }}</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">{{ 'nav.cerrar_sesion'|trans }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">{{ 'nav.ingresar'|trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-sm btn-outline-light ms-2 px-3"
+                           href="{{ path('app_register') }}">{{ 'nav.registrarse'|trans }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 
+<main class="container py-4">
+    {% for label, messages in app.flashes(['success','error','warning','info']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ 'mensajes.cerrar'|trans }}"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+    <small>
+        FansiteCMS &copy; {{ "now"|date("Y") }} —
+        <a href="https://www.habbo.es" target="_blank" rel="noopener noreferrer" class="text-warning">Habbo.es</a>
+        — Hotel Habbo en Español
+    </small>
+</footer>
+</body>
 </html>

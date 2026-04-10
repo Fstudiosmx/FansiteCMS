@@ -1,19 +1,59 @@
-{% extends 'base.html.twig'%}
+{% extends 'base.html.twig' %}
 
-{% block title %} {{ site_name }} : Inscription {% endblock %}
+{% block title %}{{ 'register.titulo'|trans }}{% endblock %}
+
 {% block body %}
-<h1>S'inscrire</h1>
-    <div class="registration--content flx-row">
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="card-title h4 mb-1 text-center">
+                    🎮 {{ 'register.titulo'|trans }}
+                </h1>
+                <p class="text-muted text-center mb-4">{{ 'register.subtitulo'|trans }}</p>
 
-    {{ form_start(register_form, {'attr': {'id': 'register-form'}}) }}
-    {{ form_widget(register_form) }}
-        <button type="submit" class="btn btn-primary">M'inscrire</button>
-    {{ form_end(register_form) }}
+                {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
 
-        <img src="https://images.habbo.com/habbo-web/america/fr/assets/images/teaser_registration.d401d183.png">
+                    {{ form_row(registrationForm.username, {
+                        'label': 'register.nombre_usuario'|trans,
+                        'attr': {'class': 'form-control', 'placeholder': 'Ej: HabboFan123'}
+                    }) }}
 
+                    {{ form_row(registrationForm.email, {
+                        'label': 'register.correo'|trans,
+                        'attr': {'class': 'form-control', 'placeholder': 'tucorreo@ejemplo.com'}
+                    }) }}
+
+                    {{ form_row(registrationForm.habboNombre, {
+                        'label': 'register.nombre_habbo'|trans,
+                        'attr': {'class': 'form-control', 'placeholder': 'Tu nombre en Habbo.es'},
+                        'help': 'habbo.configura_nombre'|trans
+                    }) }}
+
+                    {{ form_row(registrationForm.plainPassword, {
+                        'label': 'register.contrasena'|trans,
+                        'attr': {'class': 'form-control'}
+                    }) }}
+
+                    {{ form_row(registrationForm.agreeTerms, {
+                        'label': 'register.terminos'|trans
+                    }) }}
+
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            {{ 'register.boton'|trans }}
+                        </button>
+                    </div>
+
+                {{ form_end(registrationForm) }}
+
+                <hr>
+                <p class="text-center mb-0">
+                    {{ 'auth.ya_tienes_cuenta'|trans }}
+                    <a href="{{ path('app_login') }}">{{ 'auth.ingresar'|trans }}</a>
+                </p>
+            </div>
+        </div>
     </div>
-
+</div>
 {% endblock %}
-
-

@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'profile.titulo'|trans }} — {{ user.username }}{% endblock %}
+
+{% block body %}
+<div class="row mt-4">
+    <!-- Columna izquierda: Avatar + datos Habbo -->
+    <div class="col-md-3 text-center">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body py-4">
+                {% if user.habboNombre %}
+                    <!-- Avatar desde habbo.es — hotel oficial español -->
+                    <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ user.habboNombre }}&action=std&direction=2&head_direction=3&gesture=sml&size=l"
+                         alt="Avatar Habbo de {{ user.habboNombre }}"
+                         width="90"
+                         height="160"
+                         loading="lazy"
+                         class="mb-3"
+                         onerror="this.style.display='none'">
+                    <h5 class="fw-bold mb-1">{{ user.habboNombre }}</h5>
+                    <p class="text-muted small">{{ 'habbo.hotel'|trans }}</p>
+                    <a href="https://www.habbo.es/es/profile/{{ user.habboNombre }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-warning btn-sm w-100">
+                        🏨 {{ 'habbo.ver_perfil'|trans }}
+                    </a>
+                {% else %}
+                    <div class="text-muted py-3">
+                        <div style="font-size:3rem;">👤</div>
+                        <p class="small mt-2">{{ 'habbo.sin_avatar'|trans }}</p>
+                        <a href="{{ path('app_profile_edit') }}" class="btn btn-outline-secondary btn-sm">
+                            {{ 'habbo.configura_nombre'|trans }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Botón ir al hotel -->
+        <a href="https://www.habbo.es"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn btn-outline-warning w-100 mb-3">
+            🎮 {{ 'habbo.jugar_ahora'|trans }}
+        </a>
+    </div>
+
+    <!-- Columna derecha: Información del perfil -->
+    <div class="col-md-9">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">{{ 'profile.titulo'|trans }}</h2>
+                {% if app.user and app.user.id == user.id %}
+                    <a href="{{ path('app_profile_edit') }}" class="btn btn-outline-primary btn-sm">
+                        ✏️ {{ 'profile.editar'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="w-25 text-muted">{{ 'profile.nombre_usuario'|trans }}</th>
+                            <td><strong>{{ user.username }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th class="text-muted">{{ 'profile.nombre_habbo'|trans }}</th>
+                            <td>
+                                {% if user.habboNombre %}
+                                    <a href="https://www.habbo.es/es/profile/{{ user.habboNombre }}"
+                                       target="_blank" rel="noopener noreferrer">
+                                        {{ user.habboNombre }}
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-muted">{{ 'profile.miembro_desde'|trans }}</th>
+                            <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Habitaciones del usuario -->
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="h6 mb-0">🏠 {{ 'profile.habitaciones'|trans }}</h3>
+            </div>
+            <div class="card-body">
+                {% if user.rooms is defined and user.rooms|length > 0 %}
+                    <div class="row g-3">
+                        {% for room in user.rooms %}
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ room.name }}</h6>
+                                        {% if room.habboRoomId %}
+                                            <a href="https://www.habbo.es/es/room/{{ room.habboRoomId }}"
+                                               target="_blank" rel="noopener noreferrer"
+                                               class="btn btn-sm btn-outline-warning">
+                                                {{ 'room.ver_en_habbo'|trans }}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">{{ 'profile.sin_habitaciones'|trans }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
