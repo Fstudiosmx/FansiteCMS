@@ -7,21 +7,21 @@
         <img src="https://images.habbo.com/c_images/Security/safetytips2_n2.png" alt="Habitaciones">
         <div class="page-info--content">
             <h1>Nuestras habitaciones</h1>
-            <span>Aquí podrás ver la lista de todas nuestras habitaciones. Haciendo clic en "Ir ahora" accederás directamente a la habitación en Habbocity</span>
+            <span>Haz clic en "Ir ahora" para acceder directamente a la habitación en Habbo.es</span>
         </div>
     </div>
 
-<div class="roomlist w-100">
-    {% for room in roomlist %}
-        <div class="room w-100" style="background-image: url('{{ room.thumbnail }}');">
+    <div class="roomlist w-100">
+        {% for room in roomlist %}
+            <div class="room w-100" style="background-image: url('{{ room.thumbnail }}');">
                 <div class="room--title">
-                        <h2>{{ room.name }}</h2>
+                    <h2>{{ room.name }}</h2>
                 </div>
-            <a href='http://habbocity.me/room/{{ room.cityid }}' class="btn-go-to-cityroom">
-                Ir ahora >>
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
+                <a href="https://www.habbo.es/room/{{ room.cityid }}" target="_blank" rel="noopener noreferrer"
+                   class="btn-go-to-cityroom">
+                    Ir ahora <i class="fi-rr-angle-double-small-right"></i>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

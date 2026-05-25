@@ -1,44 +1,35 @@
 {% extends "base.html.twig" %}
 
-{% block title %} {{ site_name }} : Noticias{% endblock %}
+{% block title %}{{ site_name }} : Noticias{% endblock %}
 
 {% block body %}
-
     <div class="page-info">
-        <img src="https://2img.net/h/vpictu.re/uploads/fd6d6915956642852067f26bce6860555555ac05.gif" alt="Noticias">
+        <img src="https://images.habbo.com/c_images/HabboWay/habboway_2a.png" alt="Noticias">
         <div class="page-info--content">
             <h1>Toda nuestra actualidad</h1>
-            <span>Aquí podrás consultar la lista de nuestros últimos artículos sobre las novedades de Habbocity y de {{ site_name }}</span>
+            <span>Aquí podrás consultar los últimos artículos sobre las novedades de Habbo.es y de {{ site_name }}</span>
         </div>
     </div>
 
-   <a href="/noticias/{{ newsarray[0].id }}" id="list--last-news" class="w-100">
-
-    <div class="last-news--box w-100" style="background-image: url('{{ newsarray[0].ImaageUrL }}')">
-
-        <div class="last-article-content">
-            <div id="article-title">
-                <span id="article-title-text">{{ newsarray[0].title }} </span>
+    <a href="/noticias/{{ newsarray[0].id }}" id="list--last-news" class="w-100">
+        <div class="last-news--box w-100" style="background-image: url('{{ newsarray[0].ImaageUrL }}')">
+            <div class="last-article-content">
+                <div id="article-title">
+                    <span id="article-title-text">{{ newsarray[0].title }}</span>
+                </div>
             </div>
         </div>
+    </a>
 
+    <div class="list--all-news w-100 flx-row">
+        {% for news in newsarray[1:] %}
+            <div class="all-news--item" style="background-image: url({{ news.ImaageUrL }})" onclick="location.href = '/noticias/{{ news.id }}'">
+                <div class="last-article-content">
+                    <div id="article-title">
+                        <span id="article-title-text">{{ news.title }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-   </a>
-
-       <div class="list--all-news w-100 flx-row">
-
-           {% for news in newsarray[1:] %}
-
-               <div class="all-news--item" style="background-image: url({{ news.ImaageUrL }})" onclick="location.href = '/noticias/{{ news.id }}'">
-                   <div class="last-article-content">
-                   <div id="article-title">
-                       <span id="article-title-text">{{ news.title }} </span>
-                   </div>
-                   </div>
-               </div>
-
-           {% endfor %}
-
-       </div>
-
 {% endblock %}

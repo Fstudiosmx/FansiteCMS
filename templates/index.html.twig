@@ -4,57 +4,44 @@
 {% block body %}
 
     <div class="page-info">
-        <img src="https://images.habbo.com/c_images/HabboWay/habboway_2a.png" alt="Imagen de la página">
+        <img src="https://images.habbo.com/c_images/HabboWay/habboway_2a.png" alt="Inicio">
         <div class="page-info--content">
             <h1>Inicio</h1>
-            <span>Bienvenido a nuestro sitio, aquí podrás descubrir las últimas noticias de Habbocity así como los concursos organizados por nosotros</span>
+            <span>Bienvenido a nuestro fansite de Habbo.es</span>
         </div>
     </div>
 
     <h1>Noticias</h1>
 
     <div class="index-news-list flx-row">
-
-    <a href="/noticias/{{ lastarticle[0].id }}" id="last-news" style="background-image: url('{{ lastarticle[0].ImaageUrL }}')">
+        <a href="/noticias/{{ lastarticle[0].id }}" id="last-news" style="background-image: url('{{ lastarticle[0].ImaageUrL }}')">
             <div class="last-article-content w-100">
-           <div id="article-title">
-             <span id="article-title-text">{{ lastarticle[0].title }} </span>
-           </div>
+                <div id="article-title">
+                    <span id="article-title-text">{{ lastarticle[0].title }}</span>
+                </div>
             </div>
-    </a>
+        </a>
 
         <div class="other-news flx-column">
-            <a href="/noticias/{{ lastarticle[1].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[1].ImaageUrL }}')">
+            {% for i in 1..3 %}
+            <a href="/noticias/{{ lastarticle[i].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[i].ImaageUrL }}')">
                 <div class="last-article-content w-100">
                     <div id="article-title">
-                        <span id="article-title-text">{{ lastarticle[1].title }} </span>
+                        <span id="article-title-text">{{ lastarticle[i].title }}</span>
                     </div>
                 </div>
             </a>
-            <a href="/noticias/{{ lastarticle[2].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[2].ImaageUrL }}')">
-                <div class="last-article-content w-100">
-                    <div id="article-title">
-                        <span id="article-title-text">{{ lastarticle[2].title }} </span>
-                    </div>
-                </div>
-            </a>
-            <a href="/noticias/{{ lastarticle[3].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[3].ImaageUrL }}')">
-                <div class="last-article-content w-100">
-                    <div id="article-title">
-                        <span id="article-title-text">{{ lastarticle[3].title }} </span>
-                    </div>
-                </div>
-            </a>
+            {% endfor %}
         </div>
-
     </div>
 
-    <div class="w-100" id="btn-see-more"><a href="/noticias"> Ver más noticias... <i class="fi-rr-eye"></i></a></div>
+    <div class="w-100" id="btn-see-more">
+        <a href="/noticias">Ver más noticias... <i class="fi-rr-eye"></i></a>
+    </div>
 
     <div class="index-two-columns flx-row">
         <div class="last-appartments">
             <h1>Últimas habitaciones</h1>
-
             {% for room in lastroom %}
                 <div class="appartment flx-row w-100">
                     <div id="room-icon" style="background-image: url('{{ room.thumbnail }}')"></div>
@@ -62,20 +49,23 @@
                         <h2>{{ room.name }}</h2>
                         <span id="room-slug">{{ room.description }}</span>
                     </div>
-                    <a href="#" class="gotoroom"><i class="fi-rr-angle-double-small-right"></i></a>
+                    <a href="https://www.habbo.es/room/{{ room.cityid }}" target="_blank" rel="noopener noreferrer" class="gotoroom">
+                        <i class="fi-rr-angle-double-small-right"></i>
+                    </a>
                 </div>
             {% endfor %}
-
-            <div id="btn-see-more"><a href="/habitaciones"> Ver todas nuestras habitaciones <i class="fi-rr-eye"></i></a></div>
+            <div id="btn-see-more">
+                <a href="/habitaciones">Ver todas nuestras habitaciones <i class="fi-rr-eye"></i></a>
+            </div>
         </div>
 
         <div class="last-forum-posts">
-            <h1>Nuestros tópicos en City</h1>
+            <h1>Nuestros tópicos en el foro</h1>
             {% for post in forumPosts %}
                 <div class="forum-post flx-row w-100">
-                    <img src="https://api.habbocity.me/avatar_image.php?user={{ post.author }}&headonly=0&direction=2&head_direction=2&size=l" alt="Autor del tópico">
+                    <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ post.author }}&action=std&direction=2&head_direction=2&img_format=gif&gesture=std&size=l" alt="Autor del tópico">
                     <div class="forum-post-desc flx-column">
-                    <h3>{{ post.title }}</h3>
+                        <h3>{{ post.title }}</h3>
                         <span>{{ post.description }}</span>
                         <span class="auteur">{{ post.author }}</span>
                     </div>
@@ -85,26 +75,20 @@
         </div>
     </div>
 
-    <h1>Flujo City</h1>
+    <h1>Flujo del equipo</h1>
 
     <div class="flux-city flx-row w-100">
         {% for data in staffStream %}
         <div class="box-flux flx-row">
-            <img src="https://api.habbocity.me/avatar_image.php?user={{ data.pseudo }}&headonly=0&direction=2&head_direction=2&size=l" alt="avatar" class="box-flux-avatar">
+            <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ data.pseudo }}&action=std&direction=2&head_direction=2&img_format=gif&gesture=std&size=l" alt="avatar" class="box-flux-avatar">
             <div class="box-flux--desc flx-column">
                 <h2>{{ data.pseudo }}</h2>
                 <span>{{ data.rank }}</span>
                 <span>{{ data.date|date("d/m/Y") }}</span>
             </div>
-            {% if data.type == 'QUIT' %}
-            <i class="fi-rr-arrow-down arrow-down"></i>
-            {% endif %}
-            {% if data.type == 'ARRIVAL' %}
-                <i class="fi-rr-arrow-up arrow-up"></i>
-            {% endif %}
-            {% if data.type == 'SWITCH' %}
-                <i class="fi-rr-rotate-right"></i>
-            {% endif %}
+            {% if data.type == 'QUIT' %}<i class="fi-rr-arrow-down arrow-down"></i>{% endif %}
+            {% if data.type == 'ARRIVAL' %}<i class="fi-rr-arrow-up arrow-up"></i>{% endif %}
+            {% if data.type == 'SWITCH' %}<i class="fi-rr-rotate-right"></i>{% endif %}
         </div>
         {% endfor %}
     </div>

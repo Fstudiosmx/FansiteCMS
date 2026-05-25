@@ -1,0 +1,276 @@
+{# ============================================================
+   Reproductor Habbo Radio — API Habbo.es (nowplaying)
+   Muestra: cover, título de canción, DJ online, play/pause, volumen
+   Se actualiza automáticamente cada 15 segundos
+   ============================================================ #}
+<div id="habbo-radio-player" class="radio-player" aria-label="Reproductor Habbo Radio">
+
+    {# Cover del álbum / logo Habbo por defecto #}
+    <div class="radio-cover-wrap">
+        <img id="radio-cover"
+             src="https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png"
+             alt="Portada"
+             width="56" height="56">
+        <div id="radio-equalizer" class="eq-bars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+        </div>
+    </div>
+
+    {# Info canción / DJ #}
+    <div class="radio-info">
+        <span id="radio-song" class="radio-song-title">Cargando...</span>
+        <span id="radio-dj"   class="radio-dj-name"></span>
+    </div>
+
+    {# Controles #}
+    <div class="radio-controls">
+        <button id="radio-play-btn" class="radio-btn" aria-label="Reproducir / Pausar" title="Play / Pause">
+            <svg id="radio-icon-play"  width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="radio-icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button id="radio-mute-btn" class="radio-btn" aria-label="Silenciar" title="Mute">
+            <svg id="radio-icon-vol"  width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            <svg id="radio-icon-mute" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+        </button>
+        <input id="radio-volume" type="range" min="0" max="1" step="0.05" value="0.7"
+               class="radio-volume-slider" aria-label="Volumen">
+    </div>
+
+    {# Audio oculto — stream Habbo.es (ICY/HLS) #}
+    <audio id="habbo-radio-audio" preload="none">
+        <source src="https://streaming.habbo.com/radio/habbo_es/mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<style>
+/* ── Reproductor flotante ── */
+#habbo-radio-player {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #1a1831 0%, #2d1f5e 100%);
+    color: #fff;
+    border-radius: 1rem;
+    padding: 0.65rem 1rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,.45);
+    min-width: 280px;
+    max-width: 360px;
+    font-family: 'Segoe UI', sans-serif;
+    transition: box-shadow .3s;
+}
+#habbo-radio-player:hover { box-shadow: 0 12px 40px rgba(0,0,0,.6); }
+
+/* Cover + ecualizador */
+.radio-cover-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+}
+#radio-cover {
+    width: 56px;
+    height: 56px;
+    border-radius: .6rem;
+    object-fit: cover;
+    display: block;
+}
+.eq-bars {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+    opacity: 0;
+    transition: opacity .3s;
+}
+.eq-bars.playing { opacity: 1; }
+.eq-bars span {
+    display: block;
+    width: 3px;
+    background: #a78bfa;
+    border-radius: 2px;
+    animation: eq 0.8s ease-in-out infinite alternate;
+}
+.eq-bars span:nth-child(1){ height:6px;  animation-delay:0s; }
+.eq-bars span:nth-child(2){ height:12px; animation-delay:.15s; }
+.eq-bars span:nth-child(3){ height:9px;  animation-delay:.3s; }
+.eq-bars span:nth-child(4){ height:5px;  animation-delay:.45s; }
+@keyframes eq {
+    from { transform: scaleY(0.4); }
+    to   { transform: scaleY(1.3); }
+}
+
+/* Info */
+.radio-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.radio-song-title {
+    font-size: .82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #e9d5ff;
+}
+.radio-dj-name {
+    font-size: .72rem;
+    color: #a78bfa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+/* Controles */
+.radio-controls {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    flex-shrink: 0;
+}
+.radio-btn {
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: .5rem;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .2s;
+}
+.radio-btn:hover { background: rgba(255,255,255,.25); }
+.radio-volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 64px;
+    height: 4px;
+    background: rgba(255,255,255,.25);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+.radio-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #a78bfa;
+    cursor: pointer;
+}
+</style>
+
+<script>
+(function () {
+    const audio    = document.getElementById('habbo-radio-audio');
+    const playBtn  = document.getElementById('radio-play-btn');
+    const muteBtn  = document.getElementById('radio-mute-btn');
+    const volSlider= document.getElementById('radio-volume');
+    const songEl   = document.getElementById('radio-song');
+    const djEl     = document.getElementById('radio-dj');
+    const coverEl  = document.getElementById('radio-cover');
+    const eqBars   = document.getElementById('radio-equalizer');
+    const iconPlay = document.getElementById('radio-icon-play');
+    const iconPause= document.getElementById('radio-icon-pause');
+    const iconVol  = document.getElementById('radio-icon-vol');
+    const iconMute = document.getElementById('radio-icon-mute');
+
+    let playing = false;
+
+    // Volumen inicial
+    audio.volume = parseFloat(volSlider.value);
+
+    /* ── Play / Pause ── */
+    playBtn.addEventListener('click', function () {
+        if (!playing) {
+            // Recarga el stream para obtener el chunk más reciente
+            audio.load();
+            audio.play().catch(function(){});
+            playing = true;
+            iconPlay.style.display  = 'none';
+            iconPause.style.display = 'block';
+            eqBars.classList.add('playing');
+        } else {
+            audio.pause();
+            audio.src = audio.src; // reset
+            playing = false;
+            iconPlay.style.display  = 'block';
+            iconPause.style.display = 'none';
+            eqBars.classList.remove('playing');
+        }
+    });
+
+    /* ── Mute ── */
+    muteBtn.addEventListener('click', function () {
+        audio.muted = !audio.muted;
+        iconVol.style.display  = audio.muted ? 'none'  : 'block';
+        iconMute.style.display = audio.muted ? 'block' : 'none';
+    });
+
+    /* ── Volumen ── */
+    volSlider.addEventListener('input', function () {
+        audio.volume = parseFloat(this.value);
+        if (audio.muted && audio.volume > 0) {
+            audio.muted = false;
+            iconVol.style.display  = 'block';
+            iconMute.style.display = 'none';
+        }
+    });
+
+    /* ── Nowplaying via API Habbo.es ── */
+    function fetchNowPlaying() {
+        // Habbo.es expone nowplaying en su endpoint de streaming info
+        fetch('https://streaming.habbo.com/radio/habbo_es/json')
+            .then(function(r){ return r.json(); })
+            .then(function(data) {
+                var song  = (data.title  || data.song   || data.nowplaying || 'Habbo Radio');
+                var dj    = (data.streamer || data.dj || data.artist || '');
+                var cover = (data.art    || data.cover  || data.artwork || '');
+
+                songEl.textContent  = song;
+                djEl.textContent    = dj ? '🎧 ' + dj : '🎵 Habbo.es Radio';
+
+                if (cover && cover.startsWith('http')) {
+                    coverEl.src = cover;
+                } else {
+                    coverEl.src = 'https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png';
+                }
+            })
+            .catch(function() {
+                // Fallback: intentar endpoint alternativo de nowplaying
+                fetch('https://www.habbo.es/api/public/nowplaying?station=habbo_es')
+                    .then(function(r){ return r.json(); })
+                    .then(function(d) {
+                        var np = d[0] || d;
+                        songEl.textContent = (np.now_playing && np.now_playing.song && np.now_playing.song.title) || 'Habbo Radio';
+                        djEl.textContent   = (np.live && np.live.streamer_name) ? '🎧 ' + np.live.streamer_name : '🎵 Habbo.es Radio';
+                        var art = np.now_playing && np.now_playing.song && np.now_playing.song.art;
+                        coverEl.src = (art && art.startsWith('http'))
+                            ? art
+                            : 'https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png';
+                    })
+                    .catch(function() {
+                        songEl.textContent = 'Habbo Radio';
+                        djEl.textContent   = '🎵 Habbo.es';
+                    });
+            });
+    }
+
+    // Carga inicial + refresco cada 15 segundos
+    fetchNowPlaying();
+    setInterval(fetchNowPlaying, 15000);
+
+})();
+</script>

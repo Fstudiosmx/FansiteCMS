@@ -2,31 +2,31 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="CMS de Fansite exclusivamente para las organizaciones de Habbocity">
+        <meta name="description" content="CMS de Fansite para Habbo.es">
         <link rel="stylesheet" type="text/css" href="/assets/uicons/css/uicons-regular-rounded.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="https://images.habbo.com/habbo-web/america/en/assets/images/favicon.08c747be.ico">
+        <link rel="shortcut icon" href="https://www.habbo.es/favicon.ico">
         <title>{% block title %}{{ site_name }} :{% endblock %}</title>
         {% block stylesheets %}
-            {# 'app' debe coincidir con el primer argumento de addEntry() en webpack.config.js #}
             {{ encore_entry_link_tags('style') }}
         {% endblock %}
     </head>
     <body>
-    <!-- Cabecera / Menú lateral -->
+    {# Menú lateral #}
     {{ block('sidemenu', "menu/index.html.twig") }}
 
-    <!-- Contenido principal -->
+    {# Contenido principal #}
     <div id="container" class="flx-column">
-     {{ block('header', "components/global/header.html.twig") }}
-
+        {{ block('header', "components/global/header.html.twig") }}
         <div class="page-content">
-        {% block body %}
-        {% endblock %}
+            {% block body %}{% endblock %}
         </div>
     </div>
-    </body>
 
+    {# Reproductor Habbo Radio flotante #}
+    {% include 'components/radio_player.html.twig' %}
+
+    </body>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}

@@ -1,16 +1,27 @@
-# FansiteCMS
+# FansiteCMS — Habbo.es Edition
 
-Este es mi primer proyecto usando **Symfony 5**, creado para usuarios que quieran hacer su propio fansite para Habbocity. Utiliza EasyAdmin Bundle, SASS y JavaScript puro.
+CMS de Fansite para **Habbo.es** construido con **Symfony 5**, EasyAdmin Bundle, SASS y JavaScript puro.
 
-## Vistas previas
+## API de Habbo.es utilizada
 
-![Alt Text](https://media3.giphy.com/media/AjjMtQrJAoQPJwFxlt/giphy.gif)
-![Alt Text](https://media1.giphy.com/media/9hqzadJpm4xFaMFZgf/giphy.gif)
-![Alt Text](https://media1.giphy.com/media/4s4hfwvkx7AXWiq1Wh/giphy.gif)
+| Endpoint | Uso |
+|---|---|
+| `https://www.habbo.es/api/public/users?name={nick}` | Obtener datos del usuario: motto, figureString, memberSince |
+| `https://www.habbo.es/habbo-imaging/avatarimage?user={nick}&...` | Imagen del avatar en todos los templates |
+| `https://www.habbo.es/room/{roomId}` | Enlace directo a habitaciones |
 
-## Lista de pendientes
-Todo está aquí:
-[Tablero del proyecto](https://github.com/nathansuk/FansiteCMS/projects/1)
+## Verificación de misión en el registro
+
+Al registrarse, el sistema genera un **token único** que el usuario debe colocar en su **Misión** dentro de Habbo.es.
+El Controller consulta la API pública y verifica que `motto == token` antes de crear la cuenta.
+
+## Reproductor Habbo Radio
+
+Incluye un reproductor flotante (`templates/components/radio_player.html.twig`) que:
+- Carga la portada/cover desde la API de AzuraCast de Habbo.es
+- Muestra el nombre de la canción actual y el DJ en línea
+- Controles: Play/Pause, Volumen, Mute
+- Actualización automática cada 15 segundos
 
 ## Contribución
 Por favor, realiza un pull request.

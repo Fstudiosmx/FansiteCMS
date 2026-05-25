@@ -3,18 +3,17 @@
 {% block title %}{{ site_name }} : Nuestras playlists{% endblock %}
 
 {% block body %}
-
     <div class="overlay" id="overlay"></div>
     <div class="modal" id="modal">
-        <button class="modal-close-btn" id="close-btn"><i class="fa fas-cross" title="Cerrar"></i></button>
-
+        <button class="modal-close-btn" id="close-btn" title="Cerrar">
+            <i class="fi-rr-cross"></i>
+        </button>
         <iframe id="player" type="text/html" width="640" height="360"
-                src="http://www.youtube.com/embed/_nsLCoUDAt8?enablejsapi=1&origin=http://example.com"
-                frameborder="0"></iframe>
+                src="about:blank"
+                frameborder="0" allowfullscreen></iframe>
     </div>
 
     {% for playlist in playlists %}
-
         <div class="playlist-container">
             <div class="playlist-show" style="background-image: url({{ playlist.image }}); background-size: cover;">
                 <div>
@@ -22,20 +21,38 @@
                     <h2>{{ playlist.description }}</h2>
                 </div>
             </div>
-
             <div class="playlist-video-list">
-            {% for video in playlist.videos %}
-                <div class="video--details" id="btn-modal">
-                    <img src="https://api.habbocity.me/avatar_image.php?user={{ video.author }}&headonly=1&direction=2&head_direction=2&size=l" alt="Autor del video">
-                    <div>
-                    <h3>{{ video.title }}</h3>
-                    <h4>{{ video.description }}</h4>
+                {% for video in playlist.videos %}
+                    <div class="video--details" data-video-id="{{ video.youtubeId }}" id="btn-modal">
+                        <img src="https://www.habbo.es/habbo-imaging/avatarimage?user={{ video.author }}&action=std&direction=2&head_direction=2&img_format=gif&gesture=std&size=s"
+                             alt="Autor del video">
+                        <div>
+                            <h3>{{ video.title }}</h3>
+                            <h4>{{ video.description }}</h4>
+                        </div>
                     </div>
-                </div>
-             {% endfor %}
+                {% endfor %}
             </div>
-
         </div>
     {% endfor %}
 
+    <script>
+        document.querySelectorAll('#btn-modal').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const videoId = this.dataset.videoId;
+                document.getElementById('player').src =
+                    'https://www.youtube.com/embed/' + videoId + '?enablejsapi=1&autoplay=1';
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('modal').style.display = 'block';
+            });
+        });
+        document.getElementById('close-btn').addEventListener('click', function() {
+            document.getElementById('player').src = 'about:blank';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('modal').style.display = 'none';
+        });
+        document.getElementById('overlay').addEventListener('click', function() {
+            document.getElementById('close-btn').click();
+        });
+    </script>
 {% endblock %}
