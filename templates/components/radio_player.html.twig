@@ -1,16 +1,17 @@
 {# ============================================================
-   Reproductor Habbo Radio — API Habbo.es (nowplaying)
-   Muestra: cover, título de canción, DJ online, play/pause, volumen
+   Reproductor Runa FM — AzuraCast
+   Nowplaying: https://radio.kusmedios.lat/api/nowplaying/runa-fm
+   Muestra: cover, título, artista, DJ en vivo, play/pause, volumen
    Se actualiza automáticamente cada 15 segundos
    ============================================================ #}
-<div id="habbo-radio-player" class="radio-player" aria-label="Reproductor Habbo Radio">
+<div id="habbo-radio-player" class="radio-player" aria-label="Reproductor Runa FM">
 
-    {# Cover del álbum / logo Habbo por defecto #}
+    {# Cover del álbum #}
     <div class="radio-cover-wrap">
         <img id="radio-cover"
              src="https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png"
              alt="Portada"
-             width="56" height="56">
+             width="56" height="56" loading="lazy">
         <div id="radio-equalizer" class="eq-bars" aria-hidden="true">
             <span></span><span></span><span></span><span></span>
         </div>
@@ -18,8 +19,9 @@
 
     {# Info canción / DJ #}
     <div class="radio-info">
-        <span id="radio-song" class="radio-song-title">Cargando...</span>
-        <span id="radio-dj"   class="radio-dj-name"></span>
+        <span id="radio-song"  class="radio-song-title">Cargando...</span>
+        <span id="radio-dj"    class="radio-dj-name"></span>
+        <span id="radio-label" class="radio-station-name">🎙️ Runa FM</span>
     </div>
 
     {# Controles #}
@@ -36,10 +38,8 @@
                class="radio-volume-slider" aria-label="Volumen">
     </div>
 
-    {# Audio oculto — stream Habbo.es (ICY/HLS) #}
-    <audio id="habbo-radio-audio" preload="none">
-        <source src="https://streaming.habbo.com/radio/habbo_es/mp3" type="audio/mpeg">
-    </audio>
+    {# Audio — la src se inyecta dinámicamente desde la API AzuraCast #}
+    <audio id="habbo-radio-audio" preload="none"></audio>
 </div>
 
 <style>
@@ -56,13 +56,13 @@
     color: #fff;
     border-radius: 1rem;
     padding: 0.65rem 1rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,.45);
-    min-width: 280px;
-    max-width: 360px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    min-width: 290px;
+    max-width: 370px;
     font-family: 'Segoe UI', sans-serif;
     transition: box-shadow .3s;
 }
-#habbo-radio-player:hover { box-shadow: 0 12px 40px rgba(0,0,0,.6); }
+#habbo-radio-player:hover { box-shadow: 0 12px 40px rgba(0,0,0,.65); }
 
 /* Cover + ecualizador */
 .radio-cover-wrap {
@@ -77,6 +77,7 @@
     border-radius: .6rem;
     object-fit: cover;
     display: block;
+    background: #2d1f5e;
 }
 .eq-bars {
     position: absolute;
@@ -113,6 +114,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-width: 0;
 }
 .radio-song-title {
     font-size: .82rem;
@@ -128,6 +130,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: 1px;
+}
+.radio-station-name {
+    font-size: .68rem;
+    color: rgba(255,255,255,.4);
     margin-top: 2px;
 }
 
@@ -174,37 +181,90 @@
 
 <script>
 (function () {
-    const audio    = document.getElementById('habbo-radio-audio');
-    const playBtn  = document.getElementById('radio-play-btn');
-    const muteBtn  = document.getElementById('radio-mute-btn');
-    const volSlider= document.getElementById('radio-volume');
-    const songEl   = document.getElementById('radio-song');
-    const djEl     = document.getElementById('radio-dj');
-    const coverEl  = document.getElementById('radio-cover');
-    const eqBars   = document.getElementById('radio-equalizer');
-    const iconPlay = document.getElementById('radio-icon-play');
-    const iconPause= document.getElementById('radio-icon-pause');
-    const iconVol  = document.getElementById('radio-icon-vol');
-    const iconMute = document.getElementById('radio-icon-mute');
+    /* ── Configuración AzuraCast ── */
+    var NOWPLAYING_URL  = 'https://radio.kusmedios.lat/api/nowplaying/runa-fm';
+    var FALLBACK_COVER  = 'https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png';
 
-    let playing = false;
+    var audio     = document.getElementById('habbo-radio-audio');
+    var playBtn   = document.getElementById('radio-play-btn');
+    var muteBtn   = document.getElementById('radio-mute-btn');
+    var volSlider = document.getElementById('radio-volume');
+    var songEl    = document.getElementById('radio-song');
+    var djEl      = document.getElementById('radio-dj');
+    var coverEl   = document.getElementById('radio-cover');
+    var eqBars    = document.getElementById('radio-equalizer');
+    var iconPlay  = document.getElementById('radio-icon-play');
+    var iconPause = document.getElementById('radio-icon-pause');
+    var iconVol   = document.getElementById('radio-icon-vol');
+    var iconMute  = document.getElementById('radio-icon-mute');
 
-    // Volumen inicial
+    var playing   = false;
+    var streamUrl = '';
+
     audio.volume = parseFloat(volSlider.value);
+
+    /* ── Nowplaying AzuraCast ── */
+    function fetchNowPlaying() {
+        fetch(NOWPLAYING_URL)
+            .then(function (r) { return r.json(); })
+            .then(function (np) {
+                /* Título y artista */
+                var title  = (np.now_playing && np.now_playing.song && np.now_playing.song.title)  || 'Runa FM';
+                var artist = (np.now_playing && np.now_playing.song && np.now_playing.song.artist) || '';
+                var text   = artist ? artist + ' — ' + title : title;
+
+                /* DJ / streamer en vivo */
+                var isLive = np.live && np.live.is_live;
+                var djName = isLive
+                    ? ('🎙️ ' + (np.live.streamer_name || 'En vivo'))
+                    : '🎵 Runa FM · kusmedios.lat';
+
+                /* Cover del álbum */
+                var art = (np.now_playing && np.now_playing.song && np.now_playing.song.art)
+                          || (np.station && np.station.art)
+                          || '';
+
+                /* URL del stream — se obtiene una sola vez */
+                if (!streamUrl) {
+                    /* Intentar mount mp3 primero */
+                    if (np.station && np.station.mounts) {
+                        np.station.mounts.forEach(function (m) {
+                            if (!streamUrl && m.url && (m.format === 'mp3' || (m.url && m.url.indexOf('mp3') > -1))) {
+                                streamUrl = m.url;
+                            }
+                        });
+                    }
+                    /* Fallback: listen_url de la estación */
+                    if (!streamUrl) {
+                        streamUrl = (np.station && np.station.listen_url) || '';
+                    }
+                    if (streamUrl) { audio.src = streamUrl; }
+                }
+
+                songEl.textContent  = text;
+                djEl.textContent    = djName;
+                coverEl.src         = (art && art.startsWith('http')) ? art : FALLBACK_COVER;
+                coverEl.onerror     = function () { this.src = FALLBACK_COVER; };
+            })
+            .catch(function () {
+                songEl.textContent = 'Runa FM';
+                djEl.textContent   = '📡 radio.kusmedios.lat';
+            });
+    }
 
     /* ── Play / Pause ── */
     playBtn.addEventListener('click', function () {
         if (!playing) {
-            // Recarga el stream para obtener el chunk más reciente
+            if (streamUrl) { audio.src = streamUrl; }
             audio.load();
-            audio.play().catch(function(){});
+            audio.play().catch(function () {});
             playing = true;
             iconPlay.style.display  = 'none';
             iconPause.style.display = 'block';
             eqBars.classList.add('playing');
         } else {
             audio.pause();
-            audio.src = audio.src; // reset
+            audio.src = '';
             playing = false;
             iconPlay.style.display  = 'block';
             iconPause.style.display = 'none';
@@ -229,46 +289,7 @@
         }
     });
 
-    /* ── Nowplaying via API Habbo.es ── */
-    function fetchNowPlaying() {
-        // Habbo.es expone nowplaying en su endpoint de streaming info
-        fetch('https://streaming.habbo.com/radio/habbo_es/json')
-            .then(function(r){ return r.json(); })
-            .then(function(data) {
-                var song  = (data.title  || data.song   || data.nowplaying || 'Habbo Radio');
-                var dj    = (data.streamer || data.dj || data.artist || '');
-                var cover = (data.art    || data.cover  || data.artwork || '');
-
-                songEl.textContent  = song;
-                djEl.textContent    = dj ? '🎧 ' + dj : '🎵 Habbo.es Radio';
-
-                if (cover && cover.startsWith('http')) {
-                    coverEl.src = cover;
-                } else {
-                    coverEl.src = 'https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png';
-                }
-            })
-            .catch(function() {
-                // Fallback: intentar endpoint alternativo de nowplaying
-                fetch('https://www.habbo.es/api/public/nowplaying?station=habbo_es')
-                    .then(function(r){ return r.json(); })
-                    .then(function(d) {
-                        var np = d[0] || d;
-                        songEl.textContent = (np.now_playing && np.now_playing.song && np.now_playing.song.title) || 'Habbo Radio';
-                        djEl.textContent   = (np.live && np.live.streamer_name) ? '🎧 ' + np.live.streamer_name : '🎵 Habbo.es Radio';
-                        var art = np.now_playing && np.now_playing.song && np.now_playing.song.art;
-                        coverEl.src = (art && art.startsWith('http'))
-                            ? art
-                            : 'https://images.habbo.com/c_images/habbo_club/habbo_club_logo.png';
-                    })
-                    .catch(function() {
-                        songEl.textContent = 'Habbo Radio';
-                        djEl.textContent   = '🎵 Habbo.es';
-                    });
-            });
-    }
-
-    // Carga inicial + refresco cada 15 segundos
+    /* ── Carga inicial + refresco cada 15 s ── */
     fetchNowPlaying();
     setInterval(fetchNowPlaying, 15000);
 
