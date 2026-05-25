@@ -1,18 +1,18 @@
 {% extends "base.html.twig" %}
 
-{% block title %} {{ site_name }} : L'actualité{% endblock %}
+{% block title %} {{ site_name }} : Noticias{% endblock %}
 
-{%  block body %}
+{% block body %}
 
     <div class="page-info">
-        <img src="https://2img.net/h/vpictu.re/uploads/fd6d6915956642852067f26bce6860555555ac05.gif">
+        <img src="https://2img.net/h/vpictu.re/uploads/fd6d6915956642852067f26bce6860555555ac05.gif" alt="Noticias">
         <div class="page-info--content">
-            <h1>Toute notre actualité</h1>
-            <span>Ici tu pourras consulter la liste de nos derniers articles parus concernant l'actualité sur Habbocity et sur {{ site_name }}</span>
+            <h1>Toda nuestra actualidad</h1>
+            <span>Aquí podrás consultar la lista de nuestros últimos artículos sobre las novedades de Habbocity y de {{ site_name }}</span>
         </div>
     </div>
 
-   <a href="/news/{{ newsarray[0].id }}" id="list--last-news" class="w-100">
+   <a href="/noticias/{{ newsarray[0].id }}" id="list--last-news" class="w-100">
 
     <div class="last-news--box w-100" style="background-image: url('{{ newsarray[0].ImaageUrL }}')">
 
@@ -29,7 +29,7 @@
 
            {% for news in newsarray[1:] %}
 
-               <div class="all-news--item" style="background-image: url({{ news.ImaageUrL }})" onclick="location.href = '/news/{{ news.id }}'">
+               <div class="all-news--item" style="background-image: url({{ news.ImaageUrL }})" onclick="location.href = '/noticias/{{ news.id }}'">
                    <div class="last-article-content">
                    <div id="article-title">
                        <span id="article-title-text">{{ news.title }} </span>
@@ -39,9 +39,6 @@
 
            {% endfor %}
 
-
        </div>
-
-   </a>
 
 {% endblock %}

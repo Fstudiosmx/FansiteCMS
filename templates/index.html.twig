@@ -1,21 +1,21 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ site_name }} : Accueil{% endblock%}
-{%  block body %}
+{% block title %}{{ site_name }} : Inicio{% endblock %}
+{% block body %}
 
     <div class="page-info">
-        <img src="https://images.habbo.com/c_images/HabboWay/habboway_2a.png" alt="Page Info Image">
+        <img src="https://images.habbo.com/c_images/HabboWay/habboway_2a.png" alt="Imagen de la página">
         <div class="page-info--content">
-            <h1>Accueil</h1>
-            <span>Bienvenue sur notre site, ici tu pourras découvrir l'actualité d'Habbocity ainsi que des concours organisés par nos soins</span>
+            <h1>Inicio</h1>
+            <span>Bienvenido a nuestro sitio, aquí podrás descubrir las últimas noticias de Habbocity así como los concursos organizados por nosotros</span>
         </div>
     </div>
 
-    <h1>Actualité</h1>
+    <h1>Noticias</h1>
 
     <div class="index-news-list flx-row">
 
-    <a href="/news/{{ lastarticle[0].id }}" id="last-news" style="background-image: url('{{ lastarticle[0].ImaageUrL }}')">
+    <a href="/noticias/{{ lastarticle[0].id }}" id="last-news" style="background-image: url('{{ lastarticle[0].ImaageUrL }}')">
             <div class="last-article-content w-100">
            <div id="article-title">
              <span id="article-title-text">{{ lastarticle[0].title }} </span>
@@ -24,22 +24,21 @@
     </a>
 
         <div class="other-news flx-column">
-
-            <a href="/news/{{ lastarticle[1].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[1].ImaageUrL }}')">
+            <a href="/noticias/{{ lastarticle[1].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[1].ImaageUrL }}')">
                 <div class="last-article-content w-100">
                     <div id="article-title">
                         <span id="article-title-text">{{ lastarticle[1].title }} </span>
                     </div>
                 </div>
             </a>
-            <a href="/news/{{ lastarticle[2].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[2].ImaageUrL }}')">
+            <a href="/noticias/{{ lastarticle[2].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[2].ImaageUrL }}')">
                 <div class="last-article-content w-100">
                     <div id="article-title">
                         <span id="article-title-text">{{ lastarticle[2].title }} </span>
                     </div>
                 </div>
             </a>
-            <a href="/news/{{ lastarticle[3].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[3].ImaageUrL }}')">
+            <a href="/noticias/{{ lastarticle[3].id }}" class="a-news w-100" style="background-image: url('{{ lastarticle[3].ImaageUrL }}')">
                 <div class="last-article-content w-100">
                     <div id="article-title">
                         <span id="article-title-text">{{ lastarticle[3].title }} </span>
@@ -50,11 +49,11 @@
 
     </div>
 
-    <div  class="w-100" id="btn-see-more"><a href="/news"> Voir plus de news... <i class="fi-rr-eye"></i>   </a></div>
+    <div class="w-100" id="btn-see-more"><a href="/noticias"> Ver más noticias... <i class="fi-rr-eye"></i></a></div>
 
     <div class="index-two-columns flx-row">
         <div class="last-appartments">
-            <h1>Derniers appartements</h1>
+            <h1>Últimas habitaciones</h1>
 
             {% for room in lastroom %}
                 <div class="appartment flx-row w-100">
@@ -67,15 +66,14 @@
                 </div>
             {% endfor %}
 
-            <div id="btn-see-more"><a href="/room"> Voir tous nos appartements <i class="fi-rr-eye"></i>   </a></div>
+            <div id="btn-see-more"><a href="/habitaciones"> Ver todas nuestras habitaciones <i class="fi-rr-eye"></i></a></div>
         </div>
 
         <div class="last-forum-posts">
-            <h1>Nos topics sur City</h1>
+            <h1>Nuestros tópicos en City</h1>
             {% for post in forumPosts %}
-
                 <div class="forum-post flx-row w-100">
-                    <img src="https://api.habbocity.me/avatar_image.php?user={{ post.author }}&headonly=0&direction=2&head_direction=2&size=l" alt="Auteur du topic">
+                    <img src="https://api.habbocity.me/avatar_image.php?user={{ post.author }}&headonly=0&direction=2&head_direction=2&size=l" alt="Autor del tópico">
                     <div class="forum-post-desc flx-column">
                     <h3>{{ post.title }}</h3>
                         <span>{{ post.description }}</span>
@@ -83,12 +81,11 @@
                     </div>
                     <a href="{{ post.forumlink }}" class="gotoroom"><i class="fi-rr-angle-double-small-right"></i></a>
                 </div>
-
             {% endfor %}
         </div>
     </div>
 
-    <h1>Flux City</h1>
+    <h1>Flujo City</h1>
 
     <div class="flux-city flx-row w-100">
         {% for data in staffStream %}

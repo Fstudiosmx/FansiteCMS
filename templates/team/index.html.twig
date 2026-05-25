@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{site_name}} : Notre équipe{% endblock %}
+{% block title %}{{site_name}} : Nuestro equipo{% endblock %}
 
 {% block body %}
     {% for rank in ranks|reverse %}
 
         {% if rank.id > 1 %}
-            <!-- We get ranks except member's one -->
+            <!-- Obtenemos los rangos excepto el de miembro -->
             <div class="staff-rank flx-column">
                <div class="rank-title w-100">
                    <h2>{{ rank.name }}</h2>
@@ -14,17 +14,17 @@
          <div class="rank-userlist flx-row">
              {% if rank.getUsers() is not empty %}
                 {% for user in rank.getUsers() %}
-                    <div class="rank-users flx-row" onclick="location.href = '/profile/{{ user.username }}'">
+                    <div class="rank-users flx-row" onclick="location.href = '/perfil/{{ user.username }}'">
                         <img
                             src="{{ user.rank.image }}"
-                            alt="Background"
+                            alt="Fondo"
                             class="box-background">
                         <img src="https://api.habbocity.me/avatar_image.php?user={{ user.username }}&headonly=0&direction=2&head_direction=2&size=l" alt="Avatar">
                         <h2>{{ user.username }}</h2>
                     </div>
                 {% endfor %}
                  {% else %}
-                     <h2 class="no-user">Il n'y a personne dans cette catégorie.</h2>
+                     <h2 class="no-user">No hay nadie en esta categoría.</h2>
              {% endif %}
          </div>
 

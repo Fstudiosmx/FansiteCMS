@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_name }}: Appartements{% endblock %}
+{% block title %}{{ site_name }}: Habitaciones{% endblock %}
 
 {% block body %}
     <div class="page-info">
-        <img src="https://images.habbo.com/c_images/Security/safetytips2_n2.png">
+        <img src="https://images.habbo.com/c_images/Security/safetytips2_n2.png" alt="Habitaciones">
         <div class="page-info--content">
-            <h1>Nos appartements</h1>
-            <span>Ici tu pourras voir la liste de tous nos appartements, en cliquant sur "S'y rendre" tu accèderas directement à l'appartement en question sur Habbocity</span>
+            <h1>Nuestras habitaciones</h1>
+            <span>Aquí podrás ver la lista de todas nuestras habitaciones. Haciendo clic en "Ir ahora" accederás directamente a la habitación en Habbocity</span>
         </div>
     </div>
 
@@ -18,11 +18,10 @@
                         <h2>{{ room.name }}</h2>
                 </div>
             <a href='http://habbocity.me/room/{{ room.cityid }}' class="btn-go-to-cityroom">
-                S'y rendre >>
+                Ir ahora >>
             </a>
         </div>
     {% endfor %}
-
 </div>
 
 {% endblock %}

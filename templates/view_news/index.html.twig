@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ site_name }} : {{ article.title|default('Les articles') }}!{% endblock %}
+{% block title %}{{ site_name }} : {{ article.title|default('Los artículos') }}!{% endblock %}
 
 {% block body %}
     <div class="show-news-content w-100 flx-row">
@@ -19,20 +19,20 @@
                 {% if app.user %}
                     {% for message in app.flashes('success') %}
                         <div class="alert-success w-100">
-                            <span>{{ message }} <a href="/news/{{ article.id }}">Actualiser</a> </span>
+                            <span>{{ message }} <a href="/noticias/{{ article.id }}">Actualizar</a> </span>
                         </div>
                     {% endfor %}
                     <div class="comment-form flx-column w-100">
                     {{ form_start(comment_form) }}
                     {{ form_widget(comment_form) }}
-                    <button type="submit" class="btn btn-primary">Commenter</button>
+                    <button type="submit" class="btn btn-primary">Comentar</button>
                     {{ form_end(comment_form) }}
                     </div>
                 {% endif %}
 
-            {% for comment in comments|reverse %} <!-- lel dunno why this doesnt work in php meh -->
+            {% for comment in comments|reverse %}
                 <div class="comment-item flx-row w-100">
-                    <img src="https://api.habbocity.me/avatar_image.php?user={{ comment.author }}&headonly=0&direction=2&head_direction=2&size=l" alt="Comment's author" class="comments-author--avatar">
+                    <img src="https://api.habbocity.me/avatar_image.php?user={{ comment.author }}&headonly=0&direction=2&head_direction=2&size=l" alt="Autor del comentario" class="comments-author--avatar">
                     <div class="comment-item--details">
                     <h3>{{ comment.author }}</h3>
                     <span>{{ comment.content }}</span>
@@ -45,9 +45,9 @@
             {% else %}
                 <div class="show-news w-100 show-news--error">
                     <div class="article-content article-content--error">
-                        <img src="https://images.habbo.com/c_images/HabboWay/habboway_5a.png" />
-                        <h1>Oops !</h1>
-                        <span>L'article que tu essayes de chercher est introuvable.</span>
+                        <img src="https://images.habbo.com/c_images/HabboWay/habboway_5a.png" alt="Error" />
+                        <h1>¡Ups!</h1>
+                        <span>El artículo que estás buscando no se puede encontrar.</span>
                     </div>
                 </div>
 
